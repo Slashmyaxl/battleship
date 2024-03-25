@@ -1,23 +1,17 @@
 const Ship = (name, length) => {
     const shipLength = length;
     let hits = 0;
-    let sunk = false
 
     const readShipLength = () => shipLength;
+    const readHits = () => hits;
 
-    const isSunk = () => {
-        if (hits === shipLength) sunk = true;
-        return sunk;
-    }
-
+    const isSunk = () => hits === shipLength;
+    
     const hit = () => { 
-        if (!isSunk()) {
-        hits += 1;
-        isSunk();
-        }
+      if (!isSunk()) hits += 1;
     }
 
-    return { name, readShipLength, hit, isSunk }
+    return { name, readShipLength, readHits, hit, isSunk }
 }
 
 module.exports = Ship;
