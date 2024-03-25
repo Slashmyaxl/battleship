@@ -43,3 +43,30 @@ test('ships not allowed to occupy same cell', () => {
   expect(p1Board.readBoard()[row(3)][column('A')]).toHaveProperty('name', 'Battleship');
   expect(p1Board.readBoard()[row(4)][column('A')]).toBe(' ');
 })
+
+test('proper cell recieves attack', () => {
+  p1Board.receiveAttack('A', 1);
+  expect(p1Board.readBoard()[row(1)][column('A')]).toBe('O');
+})
+
+test('hit applied to ship\'s hit count', () => {
+  expect(p1Board.receiveAttack('F', 4)).toBe(1)
+})
+
+test('additive hit count', () => {
+  expect(p1Board.receiveAttack('F', 2)).toBe(2);
+})
+
+test('unable to hit same cell twice', () => {
+  expect(() => {
+    p1Board.receiveAttack('F', 2);
+  }).toThrow(new Error('Cell already hit!'))
+})
+
+test('ship sinks', () => {
+  const shipToSink = p1Board.readBoard()[row(6)][column('F')]
+  p1Board.receiveAttack('F', 3);
+  p1Board.receiveAttack('F', 5);
+  p1Board.receiveAttack('F', 6);
+  expect(shipToSink.isSunk()).toBeTruthy();
+})

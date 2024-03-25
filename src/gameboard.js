@@ -54,7 +54,7 @@ const Gameboard = () => {
         }
       }
 
-      if (shipSlot.find(collision)) throw new Error ('Ship Collision!');
+      if (shipSlot.find(isOccupied)) throw new Error ('Ship Collision!');
     })()
 
     
@@ -72,15 +72,22 @@ const Gameboard = () => {
   }
 
   function receiveAttack(x, y) {
-    board[row(y)][column(x)] = "O";
-    return ` attacked with ${board[row(y)][column(x)]}.`;
+    let cell = board[row(y)][column(x)];
+    if (isOccupied(cell)) {
+      cell.hit();
+      board[row(y)][column(x)] = "X";
+      return cell.readHits();
+    }
+    
+    if (cell === "X") throw new Error('Cell already hit!')
+    else board[row(y)][column(x)] = "O";
   }
 
   return { readBoard, receiveAttack, placeShip };
 };
 
-function collision(cell) {
-  if(cell !== ' ') return true;
+function isOccupied(cell) {
+  return cell !== ' ' && cell !== 'X';
 }
 
 module.exports = Gameboard;
