@@ -5,20 +5,19 @@ const Ship = (name, length) => {
 
     const readShipLength = () => shipLength;
 
-    const hit = () => {
-        hits += 1;
-        return `${this} has taken ${hits} hits.`
-    }
-
     const isSunk = () => {
         if (hits === shipLength) sunk = true;
         return sunk;
+    }
+
+    const hit = () => { 
+        if (!isSunk()) {
+        hits += 1;
+        isSunk();
+        }
     }
 
     return { name, readShipLength, hit, isSunk }
 }
 
 module.exports = Ship;
-
-const carrier = Ship('Carrier', 5);
-console.log(carrier.readShipLength())
