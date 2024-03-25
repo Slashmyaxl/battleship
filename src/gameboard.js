@@ -1,22 +1,24 @@
 const Ship = require('./ship')
+const { row, column } = require('./conversions');
 
 const Gameboard = () => {
-  const cols = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   const board = [];
-  function createBoard() {
+  (function createBoard() {
     for (let i = 0; i < 10; i++) {
-      const row = [];
+      const newRow = [];
       for (let j = 0; j < 10; j++) {
-        row.push(" ");
+        newRow.push(" ");
       }
-      board.push(row);
+      board.push(newRow);
     }
-  };
+  })();
+
   const readBoard = () => board;
 
-  function placeShip(ship, x, y) {
-    const coords = [cols.indexOf(x), y - 1];
+  function placeShip(ship, x, y, orientation) {
     let length;
+    let colIndex = column(x);
+    let rowIndex = row(y);
 
     switch (ship) {
       case 'Carrier':
@@ -34,20 +36,25 @@ const Gameboard = () => {
     
     const newShip = Ship(ship, length);
 
-    for (let i = 1; i <= newShip.readShipLength(); i++) {
-      board[coords[1]][coords[0]] = newShip;
-      coords[0]++
+    if(orientation === 'vertical') {
+      for (let i = 1; i <= newShip.readShipLength(); i++) {
+        board[rowIndex][colIndex] = newShip;
+        rowIndex++;
+      }
+    } else {
+      for (let i = 1; i <= newShip.readShipLength(); i++) {
+        board[rowIndex][colIndex] = newShip;
+        colIndex++;
+      }
     }
   }
 
   function receiveAttack(x, y) {
-    
-    const coords = [cols[x], y + 1];
-    board[coords[1][y]] = "O";
-    return `${coords} attacked with ${board[coords[1][coords[0]]]}.`;
+    board[row(y)][column(x)] = "O";
+    return ` attacked with ${board[row(y)][column(x)]}.`;
   }
 
-  return { createBoard, readBoard, receiveAttack, placeShip };
+  return { readBoard, receiveAttack, placeShip };
 };
 
 module.exports = Gameboard;
