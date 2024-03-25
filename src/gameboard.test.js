@@ -1,27 +1,16 @@
 const Gameboard = require("./gameboard");
 const { row, column } = require('./conversions');
 
-
 const p1Board = Gameboard();
 
-test('ship extends full length', () => {
-  p1Board.placeShip('Carrier', 'D', 2);
-
-  expect(p1Board.readBoard()[row(2)][column('D')]).toHaveProperty('name', 'Carrier')
-  expect(p1Board.readBoard()[row(2)][column('E')]).toHaveProperty('name', 'Carrier')
-  expect(p1Board.readBoard()[row(2)][column('F')]).toHaveProperty('name', 'Carrier')
-  expect(p1Board.readBoard()[row(2)][column('G')]).toHaveProperty('name', 'Carrier')
-  expect(p1Board.readBoard()[row(2)][column('H')]).toHaveProperty('name', 'Carrier')
-})
-
 test('vertical placement', () => {
-  p1Board.placeShip('Carrier', 'D', 2, 'vertical');
+  p1Board.placeShip('Carrier', 'F', 2, 'vertical');
 
-  expect(p1Board.readBoard()[row(2)][column('D')]).toHaveProperty('name', 'Carrier')
-  expect(p1Board.readBoard()[row(3)][column('D')]).toHaveProperty('name', 'Carrier')
-  expect(p1Board.readBoard()[row(4)][column('D')]).toHaveProperty('name', 'Carrier')
-  expect(p1Board.readBoard()[row(5)][column('D')]).toHaveProperty('name', 'Carrier')
-  expect(p1Board.readBoard()[row(6)][column('D')]).toHaveProperty('name', 'Carrier')
+  expect(p1Board.readBoard()[row(2)][column('F')]).toHaveProperty('name', 'Carrier')
+  expect(p1Board.readBoard()[row(3)][column('F')]).toHaveProperty('name', 'Carrier')
+  expect(p1Board.readBoard()[row(4)][column('F')]).toHaveProperty('name', 'Carrier')
+  expect(p1Board.readBoard()[row(5)][column('F')]).toHaveProperty('name', 'Carrier')
+  expect(p1Board.readBoard()[row(6)][column('F')]).toHaveProperty('name', 'Carrier')
 })
 
 test('ship extends only its length', () => {
@@ -43,4 +32,14 @@ test('works with multiple ships', () => {
   expect(p1Board.readBoard()[row(1)][column('H')]).toHaveProperty('name', 'Submarine')
   expect(p1Board.readBoard()[row(1)][column('I')]).toHaveProperty('name', 'Submarine')
   expect(p1Board.readBoard()[row(1)][column('J')]).toHaveProperty('name', 'Submarine')
+})
+
+test('ships not allowed to occupy same cell', () => {
+  expect(() => {
+    p1Board.placeShip('Cruiser', 'A', 2, 'vertical');
+  }).toThrow(new Error('Ship Collision!'));
+
+  expect(p1Board.readBoard()[row(2)][column('A')]).toBe(' ');
+  expect(p1Board.readBoard()[row(3)][column('A')]).toHaveProperty('name', 'Battleship');
+  expect(p1Board.readBoard()[row(4)][column('A')]).toBe(' ');
 })

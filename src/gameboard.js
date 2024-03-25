@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 const Ship = require('./ship')
 const { row, column } = require('./conversions');
 
@@ -36,6 +37,27 @@ const Gameboard = () => {
     
     const newShip = Ship(ship, length);
 
+    (function checkForCollision() {
+      const shipSlot = [];
+      let colCheck = column(x);
+      let rowCheck = row(y);
+
+      if(orientation === 'vertical') {
+        for (let i = 1; i <= newShip.readShipLength(); i++) {
+          shipSlot.push(board[rowCheck][colCheck]);
+          rowCheck++;
+        }
+      } else {
+        for (let i = 1; i <= newShip.readShipLength(); i++) {
+          shipSlot.push(board[rowCheck][colCheck]);
+          colCheck++;
+        }
+      }
+
+      if (shipSlot.find(collision)) throw new Error ('Ship Collision!');
+    })()
+
+    
     if(orientation === 'vertical') {
       for (let i = 1; i <= newShip.readShipLength(); i++) {
         board[rowIndex][colIndex] = newShip;
@@ -56,5 +78,9 @@ const Gameboard = () => {
 
   return { readBoard, receiveAttack, placeShip };
 };
+
+function collision(cell) {
+  if(cell !== ' ') return true;
+}
 
 module.exports = Gameboard;
