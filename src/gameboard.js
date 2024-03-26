@@ -1,6 +1,7 @@
 /* eslint-disable no-plusplus */
 const Ship = require('./ship')
 const { row, column } = require('./conversions');
+const { checkCollisions, isOccupied } = require ('./helpers')
 
 const Gameboard = () => {
   const board = [];
@@ -14,50 +15,38 @@ const Gameboard = () => {
     }
   })();
 
+  const carrier = Ship('Carrier', 5);
+  const battleship = Ship('Battleship', 4);
+  const cruiser = Ship('Cruiser', 3);
+  const submarine = Ship('Submarine', 3);
+  const destroyer = Ship('Destroyer', 2);
+
   const readBoard = () => board;
 
   function placeShip(ship, x, y, orientation) {
-    let length;
+    let newShip;
     let colIndex = column(x);
     let rowIndex = row(y);
 
     switch (ship) {
       case 'Carrier':
-        length = 5;
+        newShip = carrier;
         break;
       case 'Battleship':
-        length = 4;
+        newShip = battleship;
         break;
-      case 'Destroyer':
-        length = 2;
+      case 'Cruiser':
+        newShip = cruiser;
+        break;
+      case 'Submarine':
+        newShip = submarine;
         break;
       default:
-        length = 3;
+        newShip = destroyer;
     }
-    
-    const newShip = Ship(ship, length);
 
-    (function checkForCollision() {
-      const shipSlot = [];
-      let colCheck = column(x);
-      let rowCheck = row(y);
+    if (checkCollisions(board, x, y, orientation, newShip)) throw new Error('Ship Collision!')
 
-      if(orientation === 'vertical') {
-        for (let i = 1; i <= newShip.readShipLength(); i++) {
-          shipSlot.push(board[rowCheck][colCheck]);
-          rowCheck++;
-        }
-      } else {
-        for (let i = 1; i <= newShip.readShipLength(); i++) {
-          shipSlot.push(board[rowCheck][colCheck]);
-          colCheck++;
-        }
-      }
-
-      if (shipSlot.find(isOccupied)) throw new Error ('Ship Collision!');
-    })()
-
-    
     if(orientation === 'vertical') {
       for (let i = 1; i <= newShip.readShipLength(); i++) {
         board[rowIndex][colIndex] = newShip;
@@ -72,22 +61,15 @@ const Gameboard = () => {
   }
 
   function receiveAttack(x, y) {
-    let cell = board[row(y)][column(x)];
+    const cell = board[row(y)][column(x)];
     if (isOccupied(cell)) {
       cell.hit();
       board[row(y)][column(x)] = "X";
-      return cell.readHits();
-    }
-    
-    if (cell === "X") throw new Error('Cell already hit!')
+    } else if (cell === "X") throw new Error('Cell already hit!')
     else board[row(y)][column(x)] = "O";
   }
 
   return { readBoard, receiveAttack, placeShip };
 };
-
-function isOccupied(cell) {
-  return cell !== ' ' && cell !== 'X';
-}
 
 module.exports = Gameboard;

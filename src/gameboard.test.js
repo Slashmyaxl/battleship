@@ -50,11 +50,15 @@ test('proper cell recieves attack', () => {
 })
 
 test('hit applied to ship\'s hit count', () => {
-  expect(p1Board.receiveAttack('F', 4)).toBe(1)
+  const cell = p1Board.readBoard()[row(4)][column('F')];
+  p1Board.receiveAttack('F', 4);
+  expect(cell.readHits()).toBe(1)
 })
 
 test('additive hit count', () => {
-  expect(p1Board.receiveAttack('F', 2)).toBe(2);
+  const cell = p1Board.readBoard()[row(2)][column('F')]
+  p1Board.receiveAttack('F', 2);
+  expect(cell.readHits()).toBe(2)
 })
 
 test('unable to hit same cell twice', () => {
