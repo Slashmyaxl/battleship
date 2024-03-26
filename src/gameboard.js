@@ -21,6 +21,14 @@ const Gameboard = () => {
   const submarine = Ship('Submarine', 3);
   const destroyer = Ship('Destroyer', 2);
 
+  // For development use to test whether all ships are sunk
+  
+  const allShips = [carrier, battleship, cruiser, submarine, destroyer];
+  const getAllShips = () => allShips;
+
+  const allShipsSunk = () =>
+    carrier.isSunk() && battleship.isSunk() && cruiser.isSunk() && submarine.isSunk() && destroyer.isSunk();
+
   const readBoard = () => board;
 
   function placeShip(ship, x, y, orientation) {
@@ -69,7 +77,7 @@ const Gameboard = () => {
     else board[row(y)][column(x)] = "O";
   }
 
-  return { readBoard, receiveAttack, placeShip };
+  return { readBoard, receiveAttack, placeShip, allShipsSunk, getAllShips };
 };
 
 module.exports = Gameboard;
