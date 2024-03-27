@@ -71,7 +71,7 @@ describe('receiving attacks', () => {
 })
 
 describe('sinking ships', () => {
-  test('ship sinks', () => {
+  test('ship sinks from board', () => {
     const shipToSink = p1Board.readBoard()[row(6)][column('F')];
     p1Board.receiveAttack('F', 3);
     p1Board.receiveAttack('F', 5);
