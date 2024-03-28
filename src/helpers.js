@@ -1,7 +1,7 @@
 const { row, column } = require('./conversions')
 
 function isOccupied(cell) {
-  return cell !== ' ' && cell !== 'X';
+  return typeof cell === 'object';
 }
 
 const checkCollisions = function checkForShipPlacementCollisions(board, x, y, orientation, ship) {
