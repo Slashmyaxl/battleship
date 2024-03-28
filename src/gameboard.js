@@ -70,11 +70,11 @@ const Gameboard = () => {
 
   function receiveAttack(x, y) {
     const cell = board[row(y)][column(x)];
-    if (isOccupied(cell)) {
+    if (cell === "X" || cell === "O") throw new Error('Cell already hit!')
+    else if (isOccupied(cell)) {
       cell.hit();
       board[row(y)][column(x)] = "X";
-    } else if (cell === "X") throw new Error('Cell already hit!')
-    else board[row(y)][column(x)] = "O";
+    } else board[row(y)][column(x)] = "O";
   }
 
   return { readBoard, receiveAttack, placeShip, allShipsSunk, getAllShips };
