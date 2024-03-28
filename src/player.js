@@ -10,13 +10,11 @@ function Player(name) {
 
     const randomAttack = (board) => {
         const oppBoard = board.readBoard();
-        let chosenX = row(Math.floor(Math.random() * (10 - 1) + 1));
-        let chosenY = cols[Math.floor(Math.random() * 10)];
-        if(!isOccupied(oppBoard[chosenX][cols.indexOf(chosenY)])) board.receiveAttack(chosenY, chosenX);
-        else {
-            chosenX = row(Math.floor(Math.random() * 10));
-            chosenY = column(Math.floor(Math.random() * 10));
-        }
+        const chosenX = row(Math.floor(Math.random() * (10 - 1) + 1));
+        const chosenY = cols[Math.floor(Math.random() * 10)];
+        const chosenCell = oppBoard[chosenX][cols.indexOf(chosenY)]
+        if(isOccupied(chosenCell) || chosenCell === ' ') return board.receiveAttack(chosenY, chosenX);
+        return randomAttack(board);
     }
 
     return { displayName, attack, randomAttack }
