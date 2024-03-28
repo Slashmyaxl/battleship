@@ -1,5 +1,5 @@
 const { isOccupied } = require('./helpers');
-const { row, column, cols } = require('./conversions')
+const { cols } = require('./conversions')
 
 function Player(name) {
     const displayName = () => name;
@@ -10,11 +10,14 @@ function Player(name) {
 
     const randomAttack = (board) => {
         const oppBoard = board.readBoard();
-        const chosenX = row(Math.floor(Math.random() * (10 - 1) + 1));
-        const chosenY = cols[Math.floor(Math.random() * 10)];
-        const chosenCell = oppBoard[chosenX][cols.indexOf(chosenY)]
-        if(isOccupied(chosenCell) || chosenCell === ' ') return board.receiveAttack(chosenY, chosenX);
-        return randomAttack(board);
+        const attackableCells = [];
+
+        oppBoard.forEach(oppRow => oppRow.forEach((cell, index) => {
+            if(isOccupied(cell) || cell === ' ') attackableCells.push([cols[index], oppBoard.indexOf(oppRow) + 1])
+        }));
+
+        const chosenCell = attackableCells[Math.floor(Math.random() * attackableCells.length)]
+        board.receiveAttack(chosenCell[0], chosenCell[1])
     }
 
     return { displayName, attack, randomAttack }

@@ -28,8 +28,9 @@ describe('player attacks', () => {
 describe('computer attacks', () => {
     const player2 = Player('Computer');
     const p1Board = Gameboard();
-    p1Board.receiveAttack('A', 1)
-    p1Board.receiveAttack('B', 1)
+    p1Board.receiveAttack('A', 2);
+    p1Board.receiveAttack('B', 3);
+    p1Board.receiveAttack('A', 8)
 
     test('random attack', () => {
         player2.randomAttack(p1Board);
