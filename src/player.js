@@ -1,15 +1,20 @@
 const { isOccupied } = require('./helpers');
-const { cols } = require('./conversions')
+const { cols } = require('./conversions');
+const Gameboard = require('./gameboard');
 
-function Player(name) {
+function Player(name, computer = false, board = Gameboard()) {
     const displayName = () => name;
 
-    const attack = (x, y, oppBoard) => {
-        oppBoard.receiveAttack(x, y)
+    const getBoard = () => board;
+
+    const isComputer = () => computer === true
+
+    const attack = (x, y, player) => {
+        player.getBoard().receiveAttack(x, y)
     }
 
-    const randomAttack = (board) => {
-        const oppBoard = board.readBoard();
+    const randomAttack = (player) => {
+        const oppBoard = player.getBoard().readBoard();
         const attackableCells = [];
 
         oppBoard.forEach(oppRow => oppRow.forEach((cell, index) => {
@@ -17,10 +22,10 @@ function Player(name) {
         }));
 
         const chosenCell = attackableCells[Math.floor(Math.random() * attackableCells.length)]
-        board.receiveAttack(chosenCell[0], chosenCell[1])
+        player.getBoard().receiveAttack(chosenCell[0], chosenCell[1])
     }
 
-    return { displayName, attack, randomAttack }
+    return { displayName, getBoard, isComputer, attack, randomAttack }
 }
 
 module.exports = Player
