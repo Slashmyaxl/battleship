@@ -1,15 +1,11 @@
 const Player = require('./player');
-const { renderBoard } = require('./display-helpers');
-const { p1Board, p2Board } = require ('./display')
+const { renderCells } = require('./display-helpers');
+
 
 function gameplay() {
-    const players = [Player('You'), Player('Computer', true)]
-    let activePlayer = players[0];
-
-    renderBoard(players[0].getBoard().readBoard(), p1Board);
-    renderBoard(players[1].getBoard().readBoard(), p2Board);
-
+    const players = [Player('You'), Player('Computer', true)];
     const getPlayers = () => players;
+    let activePlayer = players[0];
 
     function inactivePlayer()  {
         if (activePlayer === players[0]) return players[1];
@@ -31,8 +27,22 @@ function gameplay() {
 
     function startGame() {
         placeAllShips();
-        renderBoard(players[0].getBoard().readBoard(), p1Board);
-        renderBoard(players[1].getBoard().readBoard(), p2Board); 
+        const p1Board = document.querySelector('.board#p1');
+        const p2Board = document.querySelector('.board#p2')
+        renderCells(players[0], p1Board)
+        renderCells(players[1], p2Board)
+
+        
+        //while (players[0].getBoard().allShipsSunk() && !players[0].getBoard().allShipsSunk()) {
+            const oppCells = document.querySelectorAll('.board#p2 > .cell');
+            
+            oppCells.forEach(cell => cell.addEventListener('click', () => {
+                players[0].attack(cell.dataset.column, cell.dataset.row, players[1]);
+                console.log('attacked');
+                renderCells(players[1], p2Board)
+            }))
+            
+        //}
     }
 
     const switchPlayer = () => {

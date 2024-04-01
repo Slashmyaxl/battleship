@@ -1,12 +1,12 @@
-const { createDOMElement } = require('./display-helpers')
+const { renderBoard } = require('./display-helpers');
+const gameplay = require('./gameplay')
 
-const p1Board = createDOMElement('div', ['board'], 'p1')
-const p2Board = createDOMElement('div', ['board'], 'p2')
-
-const renderDisplay = () => {
+function renderDisplay () {
     const container = document.querySelector('.board-container');
+    const p1Board = renderBoard(gameplay().getPlayers()[0], 'p1');
+    const p2Board = renderBoard(gameplay().getPlayers()[1], 'p2');
     container.appendChild(p1Board);
     container.appendChild(p2Board);
 }
 
-module.exports = { renderDisplay, p1Board, p2Board };
+module.exports = renderDisplay;
