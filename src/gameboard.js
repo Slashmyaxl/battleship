@@ -1,4 +1,3 @@
-/* eslint-disable no-plusplus */
 const Ship = require('./ship')
 const { row, column } = require('./conversions');
 const { checkCollisions, isOccupied } = require ('./helpers')
