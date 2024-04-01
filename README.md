@@ -1,5 +1,3 @@
-# template-webpack-basic
+# Battleship
 
-This is a basic repo template I've created for all projects which require bundling through webpack. It comes pre-configured with HTML Webpack Plugin, CSS Loaders, and the ability to import common image files. The "inline-source" DevTool is enabled for error tracking, and development mode is initialized.
-
-I've also installed ESLint and Prettier, and ensured that they do not conflict with each other.
+Using Webpack as a bundler and Jest for testing, I will develop a browser-based game of Battleship in which a human player will be able to play against the computer. While the primary focus will be on practicing test-driven development, this is a well-rounded project with several layers. A graphical user interface will be included for the user to interact with the game, thus HTML for structure and CSS for styling will be utilized. Not only do I hope to continue on my module and OOP-based principles, but I plan on using JavaScript to manipulate the DOM with each interaction as well.
