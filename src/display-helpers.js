@@ -1,5 +1,5 @@
 const { isOccupied } = require('./helpers');
-const { cols } = require('./conversions');
+const { cols, row, column } = require('./conversions');
 const Gameboard = require('./gameboard');
 
 function createDOMElement (element, classes, id) {
@@ -13,7 +13,7 @@ function createDOMElement (element, classes, id) {
 const renderBoard = (id) => {
     const board = Gameboard().readBoard();
     const domBoard = createDOMElement('div', ['board'], id);
-    board.forEach(row => row.forEach(() => {
+    board.forEach(boardRow => boardRow.forEach(() => {
         const newCell = document.createElement('div');
         newCell.classList.add('cell');
         domBoard.appendChild(newCell);
@@ -35,10 +35,26 @@ const renderCells = (player, domBoard) => {
     }));
 }
 
-const renderLog = (player, domLog) => {
+const addToLog = (player, cell, opponent, domLog) => {
+    const attackedCell = opponent.getBoard().readBoard()[row(cell[1])][column(cell[0])];
     const newLine = createDOMElement('p', ['log-line']);
-    newLine.textContent = `${player.displayName()} played... `;
+    newLine.textContent = `${player.displayName()} attacked ${cell.join(', ')} ... it's a `;
+    const span = createDOMElement('span', ['log-span']);
+    if (attackedCell === 'X') {
+        span.textContent = 'HIT!';
+        span.style.color = 'red';
+    } else if (attackedCell === 'O') {
+        span.textContent = 'MISS!';
+        span.style.color = 'white'
+    }
+    newLine.appendChild(span);
     domLog.appendChild(newLine);
 }
 
-module.exports = { createDOMElement, renderBoard, renderCells, renderLog }
+const changeMarquee = (textContent, domNode) => {
+    const node = domNode;
+    node.textContent = textContent;
+    return node;
+}
+
+module.exports = { createDOMElement, renderBoard, renderCells, addToLog, changeMarquee }
