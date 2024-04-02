@@ -35,4 +35,10 @@ const renderCells = (player, domBoard) => {
     }));
 }
 
-module.exports = { createDOMElement, renderBoard, renderCells }
+const renderLog = (player, domLog) => {
+    const newLine = createDOMElement('p', ['log-line']);
+    newLine.textContent = `${player.displayName()} played... `;
+    domLog.appendChild(newLine);
+}
+
+module.exports = { createDOMElement, renderBoard, renderCells, renderLog }

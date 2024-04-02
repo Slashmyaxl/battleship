@@ -32,6 +32,7 @@ h1 {
     background: lightyellow;
     text-align: center;
     width: 400px;
+    font-size: 1.2rem;
 }
 
 .button#start {
@@ -51,7 +52,7 @@ h1 {
 }
 
 .board {
-    background: lightblue;
+    background: skyblue;
     height: 420px;
     border: 5px solid #222;
     border-radius: 5px;
@@ -69,6 +70,19 @@ h1 {
     background: #111;
     width: min(98%, 600px);
     height: 180px;
-    border: 2px solid #ddd;
+    border: 1px solid #dddddd;
     border-radius: 3px;
+    color: rgb(251, 201, 255);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.8rem;
+    padding: 3px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+}
+
+.log .log-span {
+    font-weight: bold;
 }
