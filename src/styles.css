@@ -5,12 +5,12 @@
 }
 
 :root {
-    background: #444;
+    background: #222;
     font-size: 18px;
 }
 
 .container {
-    background: #efefef;
+    background: #888;
     margin: 0 auto;
     min-height: 100vh;
     width: min(95%, 1280px);
@@ -41,7 +41,7 @@ h1 {
 }
 
 .board-container {
-    background: lightgray;
+    background: inherit;
     width: min(96%, 890px);
     display: grid;
     grid-template-columns: repeat(auto-fit, 420px);
@@ -72,7 +72,7 @@ h1 {
     height: 180px;
     border: 1px solid #dddddd;
     border-radius: 3px;
-    color: rgb(251, 201, 255);
+    color: hsl(288, 100%, 60%);
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.8rem;
     padding: 3px 5px;
@@ -83,6 +83,11 @@ h1 {
     margin-bottom: 0.25rem;
 }
 
-.log .log-span {
+.log-span {
     font-weight: bold;
+}
+
+.log-line-sunk {
+  font-style: italic;
+  color: rgb(248, 19, 19);
 }

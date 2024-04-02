@@ -26,7 +26,7 @@ function playerTurn(player) {
         activePlayer = defender;
         playerTurn(activePlayer);
         }, 500);
-    } else Display.gameOver(activePlayer);
+    } else Display.gameOver(getInactivePlayer());
 }
 
 function placeAllShips() { 
@@ -43,7 +43,7 @@ function placeAllShips() {
 };
 
 function isGameOver() {
-    return getInactivePlayer().getBoard().allShipsSunk();
+    return getInactivePlayer().getBoard().allShipsSunk() || activePlayer.getBoard().allShipsSunk();
 }
 
 function Game() {
