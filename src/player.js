@@ -11,6 +11,8 @@ function Player(name, computer = false, board = Gameboard()) {
 
     const attack = (x, y, player) => {
         player.getBoard().receiveAttack(x, y)
+        
+        return [x, y];
     }
 
     const randomAttack = (player) => {
@@ -23,6 +25,8 @@ function Player(name, computer = false, board = Gameboard()) {
 
         const chosenCell = attackableCells[Math.floor(Math.random() * attackableCells.length)]
         player.getBoard().receiveAttack(chosenCell[0], chosenCell[1])
+
+        return chosenCell;
     }
 
     return { displayName, getBoard, isComputer, attack, randomAttack }
