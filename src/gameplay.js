@@ -14,17 +14,15 @@ function playerTurn(player) {
     if (!player.isComputer() && !isGameOver()) {
         const oppCells = document.querySelectorAll('#p2 > .cell');
         oppCells.forEach(cell => cell.addEventListener('click', () => {
-            player.attack(cell.dataset.column, cell.dataset.row, defender);
-            Display.updateDisplay(defender);
-            Display.updateLog(player);
+            const cellAttacked = player.attack(cell.dataset.column, cell.dataset.row, defender);
+            Display.updateDisplay(player, cellAttacked, defender);
             activePlayer = defender
             playerTurn(activePlayer);      
         }))
     } else if (player.isComputer() && !isGameOver()) {
         setTimeout(() => {
-        player.randomAttack(defender);
-        Display.updateDisplay(defender);
-        Display.updateLog(player);
+        const cellAttacked = player.randomAttack(defender);
+        Display.updateDisplay(player, cellAttacked, defender)
         activePlayer = defender;
         playerTurn(activePlayer);
         }, 500);
@@ -48,15 +46,15 @@ function isGameOver() {
     return getInactivePlayer().getBoard().allShipsSunk();
 }
 
-function gameplay() {
+function Game() {
   players = [Player('You'), Player('Computer', true)];
-  activePlayer = players[0];
-  Display.renderDisplay();
+  [activePlayer] = players;
+  Display.renderBoards();
   placeAllShips();     
-  Display.updateDisplay(activePlayer);
-  Display.updateDisplay(getInactivePlayer());
+  Display.updateBoard(activePlayer);
+  Display.updateBoard(getInactivePlayer());
   playerTurn(activePlayer);
 
 }
 
-module.exports = gameplay;
+module.exports = Game;
