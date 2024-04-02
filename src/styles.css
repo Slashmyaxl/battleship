@@ -32,6 +32,7 @@ h1 {
     background: lightyellow;
     text-align: center;
     width: 400px;
+    font-size: 1.2rem;
 }
 
 .button#start {
@@ -69,6 +70,15 @@ h1 {
     background: #111;
     width: min(98%, 600px);
     height: 180px;
-    border: 2px solid #ddd;
+    border: 1px solid #dddddd;
     border-radius: 3px;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.79rem;
+    padding: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+
 }

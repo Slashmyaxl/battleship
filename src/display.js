@@ -1,4 +1,4 @@
-const { renderBoard, renderCells } = require('./display-helpers');
+const { renderBoard, renderCells, renderLog } = require('./display-helpers');
 
 const Display = {
     container: document.querySelector('.board-container'),
@@ -17,6 +17,10 @@ const Display = {
         else renderCells(player, this.p1Board);
     },
 
+    updateLog (player) {
+        renderLog(player, this.gamelog);
+    },
+    
     gameOver (winner) {
         this.marquee.textContent = `Winner: ${winner.displayName()}`
     }

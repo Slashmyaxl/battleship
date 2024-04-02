@@ -16,16 +16,18 @@ function playerTurn(player) {
         oppCells.forEach(cell => cell.addEventListener('click', () => {
             player.attack(cell.dataset.column, cell.dataset.row, defender);
             Display.updateDisplay(defender);
-            console.log(isGameOver());
-            
+            Display.updateLog(player);
             activePlayer = defender
             playerTurn(activePlayer);      
         }))
     } else if (player.isComputer() && !isGameOver()) {
+        setTimeout(() => {
         player.randomAttack(defender);
         Display.updateDisplay(defender);
+        Display.updateLog(player);
         activePlayer = defender;
         playerTurn(activePlayer);
+        }, 500);
     } else Display.gameOver(activePlayer);
 }
 
