@@ -13,6 +13,7 @@ const Display = {
     },
 
     updateBoard (player) {
+        changeMarquee('You\'re up, Admiral! Choose a cell to attack.', this.marquee);
         if (player.isComputer()) renderCells(player, this.p2Board);
         else renderCells(player, this.p1Board);
     },
