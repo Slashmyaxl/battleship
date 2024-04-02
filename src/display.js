@@ -1,7 +1,6 @@
 const { renderBoard, renderCells } = require('./display-helpers');
 
-
-const Display =  {
+const Display = {
     container: document.querySelector('.board-container'),
     marquee: document.querySelector('.marquee'),
     p1Board: renderBoard('p1'),
@@ -15,10 +14,12 @@ const Display =  {
 
     updateDisplay (player) {
         if (player.isComputer()) renderCells(player, this.p2Board);
-        else renderCells(player, this.p1Board)
+        else renderCells(player, this.p1Board);
+    },
+
+    gameOver (winner) {
+        this.marquee.textContent = `Winner: ${winner.displayName()}`
     }
 }
-
-
 
 module.exports = Display;
