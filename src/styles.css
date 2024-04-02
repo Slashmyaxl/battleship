@@ -52,7 +52,7 @@ h1 {
 }
 
 .board {
-    background: lightblue;
+    background: skyblue;
     height: 420px;
     border: 5px solid #222;
     border-radius: 5px;
@@ -72,13 +72,17 @@ h1 {
     height: 180px;
     border: 1px solid #dddddd;
     border-radius: 3px;
-    color: white;
+    color: rgb(251, 201, 255);
     font-family: 'Courier New', Courier, monospace;
-    font-size: 0.79rem;
-    padding: 2px;
+    font-size: 0.8rem;
+    padding: 3px 5px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     overflow: hidden;
+    margin-bottom: 0.25rem;
+}
 
+.log .log-span {
+    font-weight: bold;
 }
