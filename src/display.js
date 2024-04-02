@@ -1,12 +1,24 @@
-const { renderBoard } = require('./display-helpers');
-const gameplay = require('./gameplay')
+const { renderBoard, renderCells } = require('./display-helpers');
 
-function renderDisplay () {
-    const container = document.querySelector('.board-container');
-    const p1Board = renderBoard(gameplay().getPlayers()[0], 'p1');
-    const p2Board = renderBoard(gameplay().getPlayers()[1], 'p2');
-    container.appendChild(p1Board);
-    container.appendChild(p2Board);
+
+const Display =  {
+    container: document.querySelector('.board-container'),
+    marquee: document.querySelector('.marquee'),
+    p1Board: renderBoard('p1'),
+    p2Board: renderBoard('p2'),
+    gamelog: document.querySelector('.log'),
+
+    renderDisplay () {
+        this.container.appendChild(this.p1Board);
+        this.container.appendChild(this.p2Board);
+    },
+
+    updateDisplay (player) {
+        if (player.isComputer()) renderCells(player, this.p2Board);
+        else renderCells(player, this.p1Board)
+    }
 }
 
-module.exports = renderDisplay;
+
+
+module.exports = Display;

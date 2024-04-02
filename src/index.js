@@ -1,11 +1,12 @@
 import './styles.css';
 
-const renderDisplay = require('./display');
+const Display = require('./display');
 const gameplay = require('./gameplay');
 
 const startButton = document.querySelector('button#start')
 
-gameplay();
-renderDisplay();
+Display.renderDisplay();
 
-startButton.addEventListener('click', () => gameplay().startGame())
+console.log(Display);
+
+startButton.addEventListener('click', () => gameplay())

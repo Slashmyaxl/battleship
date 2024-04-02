@@ -1,5 +1,6 @@
 const { isOccupied } = require('./helpers');
-const { cols } = require('./conversions')
+const { cols } = require('./conversions');
+const Gameboard = require('./gameboard');
 
 function createDOMElement (element, classes, id) {
     const newElement = document.createElement(element);
@@ -9,8 +10,8 @@ function createDOMElement (element, classes, id) {
     return newElement;
 }
 
-const renderBoard = (player, id) => {
-    const board = player.getBoard().readBoard();
+const renderBoard = (id) => {
+    const board = Gameboard().readBoard();
     const domBoard = createDOMElement('div', ['board'], id);
     board.forEach(row => row.forEach(() => {
         const newCell = document.createElement('div');
