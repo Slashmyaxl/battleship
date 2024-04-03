@@ -18,22 +18,22 @@ const Display = {
         else renderCells(player, this.p1Board);
     },
 
-    updateDisplay (player, cell, opponent) {
+    updateDisplay (player, cell, opponent, shipSunk) {
         this.updateBoard(opponent);
-        this.updateLog(player, cell, opponent);
+        this.updateLog(player, cell, opponent, shipSunk);
         this.updateMarquee(opponent);
     },
 
-    updateLog (player, cell, opponent) {
-        addToLog(player, cell, opponent, this.gamelog);
+    updateLog (player, cell, opponent, shipSunk) {
+        addToLog(player, cell, opponent, shipSunk, this.gamelog);
     },
 
     updateMarquee (player) {
-        changeMarquee(`Turn: ${player.displayName()}`, this.marquee)
+        changeMarquee(`${player.getPossessive()} turn`, this.marquee)
     },
     
     gameOver (winner) {
-        this.marquee.textContent = `Winner: ${winner.displayName()}`
+        this.marquee.textContent = `Winner: ${winner.getName()}`
     }
 }
 
