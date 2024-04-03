@@ -29,6 +29,7 @@ function playerTurn(player) {
     } else Display.gameOver(getInactivePlayer());
 }
 
+
 function placeAllShips() { 
     activePlayer.getBoard().placeShip('Destroyer', 'B', 2);
     activePlayer.getBoard().placeShip('Carrier', 'C', 9);
@@ -49,12 +50,11 @@ function isGameOver() {
 function Game() {
   players = [Player('You'), Player('Computer', true)];
   [activePlayer] = players;
-  Display.renderBoards();
+  Display.renderBoards(players);
   placeAllShips();     
   Display.updateBoard(activePlayer);
   Display.updateBoard(getInactivePlayer());
   playerTurn(activePlayer);
-
 }
 
 module.exports = Game;
