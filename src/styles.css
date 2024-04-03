@@ -27,35 +27,52 @@ h1 {
 }
 
 .marquee {
-    padding: 0.25rem;
+    padding: 0.35rem;
     color: #222;
     background: lightyellow;
     text-align: center;
+    border-radius: 0.25rem;
+    box-shadow: inset 2px 2px 4px #555,
+                inset -2px -2px 4px lightgray;
     width: 400px;
     font-size: 1.2rem;
 }
 
 .button#start {
-    padding: 2px 4px;
-    border-radius: 5px;
+    padding: 4px 6px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid black;
 }
 
-.board-container {
+.boards-container {
     background: inherit;
     width: min(96%, 890px);
     display: grid;
     grid-template-columns: repeat(auto-fit, 420px);
     justify-content: center;
     gap: 0.75rem;
-    padding: 0.75rem;
+    padding: 0.25rem 0.75rem;
+}
 
+.board-container {
+    border: 6px solid #222;
+    border-radius: 5px;
+}
+
+.board-header {
+    height: 40px;
+    background: #e2e2e2;
+    text-align: center;
+    padding: 4px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-bottom: 3px solid black;
 }
 
 .board {
     background: skyblue;
     height: 420px;
-    border: 5px solid #222;
-    border-radius: 5px;
     display: flex;
     flex-wrap: wrap;
 }
@@ -66,21 +83,35 @@ h1 {
     border: 1px dotted black;
 }
 
-.log {
+.log-container {
     background: #111;
     width: min(98%, 600px);
-    height: 180px;
-    border: 1px solid #dddddd;
+    height: 196px;
+    border: 2px solid #eee;
     border-radius: 3px;
-    color: hsl(288, 100%, 60%);
+    letter-spacing: 0.025rem;
+    margin-bottom: 0.25rem;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+}
+
+.log-header {
+    color: #fefefe;
+    font-family: monospace;
+    text-align: center;
+    padding: 0.1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.log {
+    color: hsl(313, 100%, 80%);
     font-family: 'Courier New', Courier, monospace;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     padding: 3px 5px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     overflow: hidden;
-    margin-bottom: 0.25rem;
 }
 
 .log-span {
