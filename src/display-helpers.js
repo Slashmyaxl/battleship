@@ -35,20 +35,26 @@ const renderCells = (player, domBoard) => {
     }));
 }
 
-const addToLog = (player, cell, opponent, domLog) => {
+const addToLog = (player, cell, opponent, shipSunk, domLog) => {
+    console.log(cell)
     const attackedCell = opponent.getBoard().readBoard()[row(cell[1])][column(cell[0])];
     const newLine = createDOMElement('p', ['log-line']);
-    newLine.textContent = `${player.displayName()} attacked ${cell.join(', ')} ... it's a `;
+    newLine.textContent = `${player.getName()} attacked ${cell.join(', ')} ... it's a `;
     const span = createDOMElement('span', ['log-span']);
     if (attackedCell === 'X') {
         span.textContent = 'HIT!';
-        span.style.color = 'red';
+        span.style.color = 'rgb(243, 120, 19)';
     } else if (attackedCell === 'O') {
         span.textContent = 'MISS!';
         span.style.color = 'white'
     }
-    newLine.appendChild(span);
+    newLine.appendChild(span)
     domLog.appendChild(newLine);
+    if (shipSunk) {
+        const sunkLine = createDOMElement('p', ['log-line-sunk'])
+        sunkLine.textContent = `${opponent.getPossessive()} ${shipSunk} has been sunk!`;
+        domLog.appendChild(sunkLine)
+    }
 }
 
 const changeMarquee = (textContent, domNode) => {

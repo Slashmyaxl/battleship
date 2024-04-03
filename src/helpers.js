@@ -10,12 +10,12 @@ const checkCollisions = function checkForShipPlacementCollisions(board, x, y, or
   let rowCheck = row(y);
 
   if(orientation === 'vertical') {
-    for (let i = 1; i <= ship.readShipLength(); i++) {
+    for (let i = 1; i <= ship.getShipLength; i++) {
       shipSlot.push(board[rowCheck][colCheck]);
       rowCheck++;
     }
   } else {
-    for (let i = 1; i <= ship.readShipLength(); i++) {
+    for (let i = 1; i <= ship.getShipLength(); i++) {
       shipSlot.push(board[rowCheck][colCheck]);
       colCheck++;
     }

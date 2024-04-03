@@ -15,14 +15,14 @@ function playerTurn(player) {
         const oppCells = document.querySelectorAll('#p2 > .cell');
         oppCells.forEach(cell => cell.addEventListener('click', () => {
             const cellAttacked = player.attack(cell.dataset.column, cell.dataset.row, defender);
-            Display.updateDisplay(player, cellAttacked, defender);
+            Display.updateDisplay(player, cellAttacked.cell, defender, cellAttacked.shipSunk);
             activePlayer = defender
             playerTurn(activePlayer);      
         }))
     } else if (player.isComputer() && !isGameOver()) {
         setTimeout(() => {
         const cellAttacked = player.randomAttack(defender);
-        Display.updateDisplay(player, cellAttacked, defender)
+        Display.updateDisplay(player, cellAttacked.chosenCell, defender, cellAttacked.shipSunk);
         activePlayer = defender;
         playerTurn(activePlayer);
         }, 500);

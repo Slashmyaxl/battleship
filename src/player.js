@@ -3,16 +3,17 @@ const { cols } = require('./conversions');
 const Gameboard = require('./gameboard');
 
 function Player(name, computer = false, board = Gameboard()) {
-    const displayName = () => name;
+    const getName = () => name;
+    const getPossessive = () => name === 'You' ? 'Your' : `${name}'s`;
 
     const getBoard = () => board;
 
     const isComputer = () => computer === true
 
     const attack = (x, y, player) => {
-        player.getBoard().receiveAttack(x, y)
-        
-        return [x, y];
+        const cell = [x, y];
+        const shipSunk = player.getBoard().receiveAttack(x, y);
+        return { cell, shipSunk }
     }
 
     const randomAttack = (player) => {
@@ -24,12 +25,12 @@ function Player(name, computer = false, board = Gameboard()) {
         }));
 
         const chosenCell = attackableCells[Math.floor(Math.random() * attackableCells.length)]
-        player.getBoard().receiveAttack(chosenCell[0], chosenCell[1])
+        const shipSunk = player.getBoard().receiveAttack(chosenCell[0], chosenCell[1])
 
-        return chosenCell;
+        return { chosenCell, shipSunk };
     }
 
-    return { displayName, getBoard, isComputer, attack, randomAttack }
+    return { getName, getPossessive, getBoard, isComputer, attack, randomAttack }
 }
 
 module.exports = Player

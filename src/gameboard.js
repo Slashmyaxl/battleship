@@ -55,12 +55,12 @@ const Gameboard = () => {
     if (checkCollisions(board, x, y, orientation, newShip)) throw new Error('Ship Collision!')
 
     if(orientation === 'vertical') {
-      for (let i = 1; i <= newShip.readShipLength(); i++) {
+      for (let i = 1; i <= newShip.getShipLength(); i++) {
         board[rowIndex][colIndex] = newShip;
         rowIndex++;
       }
     } else {
-      for (let i = 1; i <= newShip.readShipLength(); i++) {
+      for (let i = 1; i <= newShip.getShipLength(); i++) {
         board[rowIndex][colIndex] = newShip;
         colIndex++;
       }
@@ -68,12 +68,15 @@ const Gameboard = () => {
   }
 
   function receiveAttack(x, y) {
+    let sunkShip = null;
     const cell = board[row(y)][column(x)];
     if (cell === "X" || cell === "O") throw new Error('Cell already hit!')
     else if (isOccupied(cell)) {
       cell.hit();
+      if (cell.isSunk()) sunkShip = cell.name
       board[row(y)][column(x)] = "X";
     } else board[row(y)][column(x)] = "O";
+    return sunkShip;
   }
 
   return { readBoard, receiveAttack, placeShip, allShipsSunk, getAllShips };
