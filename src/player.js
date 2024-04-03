@@ -5,19 +5,27 @@ const Gameboard = require('./gameboard');
 function Player(name, computer = false, board = Gameboard()) {
     const getName = () => name;
     const getPossessive = () => name === 'You' ? 'Your' : `${name}'s`;
-
     const getBoard = () => board;
+    const isComputer = () => computer === true;
+    
+    function getInput() {
+        return new Promise(resolve => {
+          const oppCells = document.querySelectorAll('#p2 > .cell');
+          oppCells.forEach(cell => cell.addEventListener('click', () => {
+              console.log(`clicked ${[cell.dataset.column, cell.dataset.row]}`);
+              resolve([cell.dataset.column, cell.dataset.row])
+          }))
+        })
+      }
 
-    const isComputer = () => computer === true
-
-    const attack = (x, y, player) => {
+    const attack = (x, y, opponent) => {
         const cell = [x, y];
-        const shipSunk = player.getBoard().receiveAttack(x, y);
+        const shipSunk = opponent.getBoard().receiveAttack(x, y);
         return { cell, shipSunk }
     }
 
-    const randomAttack = (player) => {
-        const oppBoard = player.getBoard().readBoard();
+    const randomAttack = (opponent) => {
+        const oppBoard = opponent.getBoard().readBoard();
         const attackableCells = [];
 
         oppBoard.forEach(oppRow => oppRow.forEach((cell, index) => {
@@ -25,12 +33,12 @@ function Player(name, computer = false, board = Gameboard()) {
         }));
 
         const chosenCell = attackableCells[Math.floor(Math.random() * attackableCells.length)]
-        const shipSunk = player.getBoard().receiveAttack(chosenCell[0], chosenCell[1])
+        const shipSunk = opponent.getBoard().receiveAttack(chosenCell[0], chosenCell[1])
 
         return { chosenCell, shipSunk };
     }
 
-    return { getName, getPossessive, getBoard, isComputer, attack, randomAttack }
+    return { getName, getPossessive, getBoard, getInput, isComputer, attack, randomAttack }
 }
 
 module.exports = Player
