@@ -4,7 +4,7 @@ const Gameboard = require('./gameboard');
 
 function createDOMElement (element, classes, id) {
     const newElement = document.createElement(element);
-    if (classes) [...classes].forEach(value => newElement.classList.add(value))
+    if (classes) classes.forEach(value => newElement.classList.add(value))
     if (id) newElement.setAttribute('id', id);
 
     return newElement;
@@ -14,8 +14,7 @@ const renderBoard = (id) => {
     const board = Gameboard().readBoard();
     const domBoard = createDOMElement('div', ['board'], id);
     board.forEach(boardRow => boardRow.forEach((cell, index) => {
-        const newCell = document.createElement('div');
-        newCell.classList.add('cell');
+        const newCell = createDOMElement('div', ['cell'])
         newCell.dataset.column = cols[index];
         newCell.dataset.row = board.indexOf(boardRow) + 1;
         domBoard.appendChild(newCell);
@@ -44,7 +43,7 @@ const addToLog = (player, cell, opponent, shipSunk, domLog) => {
     const span = createDOMElement('span', ['log-span']);
     if (attackedCell === 'X') {
         span.textContent = 'HIT!';
-        span.style.color = 'rgb(255, 150, 60)';
+        span.style.color = 'rgb(255, 100, 40)';
     } else if (attackedCell === 'O') {
         span.textContent = 'MISS!';
         span.style.color = '#eee'
@@ -54,7 +53,7 @@ const addToLog = (player, cell, opponent, shipSunk, domLog) => {
     if (shipSunk) {
         const sunkLine = createDOMElement('p', ['log-line-sunk'])
         sunkLine.textContent = `${opponent.getPossessive()} ${shipSunk} has been sunk!`;
-        domLog.appendChild(sunkLine)
+        setTimeout(() => { domLog.appendChild(sunkLine)}, 150)   
     }
 }
 
