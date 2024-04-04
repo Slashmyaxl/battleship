@@ -2,8 +2,8 @@ const { renderBoard, renderCells, addToLog, changeMarquee } = require('./display
 
 const Display = {
     marquee: document.querySelector('.marquee'),
-    p1Container: document.getElementById('p1Board'),
-    p2Container: document.getElementById('p2Board'),
+    p1Container: document.getElementById('p1container'),
+    p2Container: document.getElementById('p2container'),
     p1Header: document.getElementById('p1Header'),
     p2Header: document.getElementById('p2Header'),
     p1Board: renderBoard('p1'),
@@ -28,18 +28,17 @@ const Display = {
 
     updateDisplay (player, cell, opponent, shipSunk) {
         this.updateBoard(opponent);
-        this.updateLog(player, cell, opponent, shipSunk);
-        this.updateMarquee(opponent);
+        changeMarquee(`${opponent.getPossessive()} turn`, this.marquee);
+        setTimeout(() => {
+            this.updateLog(player, cell, opponent, shipSunk);
+        }, 100);
+        
     },
 
     updateLog (player, cell, opponent, shipSunk) {
         addToLog(player, cell, opponent, shipSunk, this.gamelog);
     },
 
-    updateMarquee (player) {
-        changeMarquee(`${player.getPossessive()} turn`, this.marquee)
-    },
-    
     gameOver (winner) {
         this.marquee.textContent = `Winner: ${winner.getName()}`
     }

@@ -4,13 +4,13 @@ const Display = require('./display');
 let players = [];
 let activePlayer;
 
-const getInactivePlayer = () => {
+const getOpponent = () => {
     if (activePlayer === players[0]) return players[1];
     return players[0];
 }
 
 function isGameOver() {
-    return getInactivePlayer().getBoard().allShipsSunk() || activePlayer.getBoard().allShipsSunk();
+    return getOpponent().getBoard().allShipsSunk() || activePlayer.getBoard().allShipsSunk();
 }
 
 function Game() {
@@ -19,25 +19,24 @@ function Game() {
   Display.renderBoards(players);
   placeAllShips();     
   Display.updateBoard(activePlayer);
-  Display.updateBoard(getInactivePlayer());
+  Display.updateBoard(getOpponent());
   gameLoop();
 
   function gameLoop () {
-    if (isGameOver()) return Display.gameOver(getInactivePlayer());
-
     const userInput = activePlayer.getInput();
 
     userInput.then(coords => {
-        const cellAttacked = activePlayer.attack(coords[0], coords[1], getInactivePlayer());
-        Display.updateDisplay(activePlayer, cellAttacked.cell, getInactivePlayer(), cellAttacked.shipSunk);
-        activePlayer = getInactivePlayer();
+      const cellAttacked = activePlayer.attack(coords[0], coords[1], getOpponent());
+      Display.updateDisplay(activePlayer, cellAttacked.cell, getOpponent(), cellAttacked.shipSunk);
+      activePlayer = getOpponent();
     }).then(() => {
-        if (isGameOver()) return Display.gameOver(getInactivePlayer());
-        setTimeout(() => {
-            const randomCell = activePlayer.randomAttack(getInactivePlayer());
-            Display.updateDisplay(activePlayer, randomCell.chosenCell, getInactivePlayer(), randomCell.shipSunk);
-            activePlayer = getInactivePlayer();
-        }, 500)     
+      if (isGameOver()) return Display.gameOver(getOpponent());
+      setTimeout(() => {
+        const randomCell = activePlayer.randomAttack(getOpponent());
+            Display.updateDisplay(activePlayer, randomCell.chosenCell, getOpponent(), randomCell.shipSunk);
+            if (isGameOver()) return Display.gameOver(activePlayer);
+            activePlayer = getOpponent();
+        }, 600)     
     }).finally(() => gameLoop())
   }
 }
@@ -48,11 +47,11 @@ function placeAllShips() {
     activePlayer.getBoard().placeShip('Cruiser', 'A', 3, 'vertical');
     activePlayer.getBoard().placeShip('Battleship', 'F', 4, 'vertical');
     activePlayer.getBoard().placeShip('Submarine', 'H', 1, 'vertical');
-    getInactivePlayer().getBoard().placeShip('Destroyer', 'A', 2);
-    getInactivePlayer().getBoard().placeShip('Carrier', 'B', 10);
-    getInactivePlayer().getBoard().placeShip('Cruiser', 'J', 1, 'vertical');
-    getInactivePlayer().getBoard().placeShip('Battleship', 'E', 5, 'vertical');
-    getInactivePlayer().getBoard().placeShip('Submarine', 'H', 1, 'vertical');
+    getOpponent().getBoard().placeShip('Destroyer', 'A', 2);
+    getOpponent().getBoard().placeShip('Carrier', 'B', 10);
+    getOpponent().getBoard().placeShip('Cruiser', 'J', 1, 'vertical');
+    getOpponent().getBoard().placeShip('Battleship', 'E', 5, 'vertical');
+    getOpponent().getBoard().placeShip('Submarine', 'H', 1, 'vertical');
 };
 
 module.exports = Game;
