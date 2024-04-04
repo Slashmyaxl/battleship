@@ -9,40 +9,6 @@ const getInactivePlayer = () => {
     return players[0];
 }
 
-function playerTurn(player) {
-    const defender = getInactivePlayer();
-    if (!player.isComputer() && !isGameOver()) {
-        const oppCells = document.querySelectorAll('#p2 > .cell');
-        oppCells.forEach(cell => cell.addEventListener('click', () => {
-            const cellAttacked = player.attack(cell.dataset.column, cell.dataset.row, defender);
-            Display.updateDisplay(player, cellAttacked.cell, defender, cellAttacked.shipSunk);
-            activePlayer = defender
-            playerTurn(activePlayer);      
-        }))
-    } else if (player.isComputer() && !isGameOver()) {
-        setTimeout(() => {
-        const cellAttacked = player.randomAttack(defender);
-        Display.updateDisplay(player, cellAttacked.chosenCell, defender, cellAttacked.shipSunk);
-        activePlayer = defender;
-        playerTurn(activePlayer);
-        }, 500);
-    } else Display.gameOver(getInactivePlayer());
-}
-
-
-function placeAllShips() { 
-    activePlayer.getBoard().placeShip('Destroyer', 'B', 2);
-    activePlayer.getBoard().placeShip('Carrier', 'C', 9);
-    activePlayer.getBoard().placeShip('Cruiser', 'A', 3, 'vertical');
-    activePlayer.getBoard().placeShip('Battleship', 'F', 4, 'vertical');
-    activePlayer.getBoard().placeShip('Submarine', 'H', 1, 'vertical');
-    getInactivePlayer().getBoard().placeShip('Destroyer', 'A', 2);
-    getInactivePlayer().getBoard().placeShip('Carrier', 'B', 10);
-    getInactivePlayer().getBoard().placeShip('Cruiser', 'J', 1, 'vertical');
-    getInactivePlayer().getBoard().placeShip('Battleship', 'E', 5, 'vertical');
-    getInactivePlayer().getBoard().placeShip('Submarine', 'H', 1, 'vertical');
-};
-
 function isGameOver() {
     return getInactivePlayer().getBoard().allShipsSunk() || activePlayer.getBoard().allShipsSunk();
 }
@@ -54,7 +20,39 @@ function Game() {
   placeAllShips();     
   Display.updateBoard(activePlayer);
   Display.updateBoard(getInactivePlayer());
-  playerTurn(activePlayer);
+  gameLoop();
+
+  function gameLoop () {
+    if (isGameOver()) return Display.gameOver(getInactivePlayer());
+
+    const userInput = activePlayer.getInput();
+
+    userInput.then(coords => {
+        const cellAttacked = activePlayer.attack(coords[0], coords[1], getInactivePlayer());
+        Display.updateDisplay(activePlayer, cellAttacked.cell, getInactivePlayer(), cellAttacked.shipSunk);
+        activePlayer = getInactivePlayer();
+    }).then(() => {
+        if (isGameOver()) return Display.gameOver(getInactivePlayer());
+        setTimeout(() => {
+            const randomCell = activePlayer.randomAttack(getInactivePlayer());
+            Display.updateDisplay(activePlayer, randomCell.chosenCell, getInactivePlayer(), randomCell.shipSunk);
+            activePlayer = getInactivePlayer();
+        }, 500)     
+    }).finally(() => gameLoop())
+  }
 }
+
+function placeAllShips() {
+    activePlayer.getBoard().placeShip('Destroyer', 'B', 2);
+    activePlayer.getBoard().placeShip('Carrier', 'C', 9);
+    activePlayer.getBoard().placeShip('Cruiser', 'A', 3, 'vertical');
+    activePlayer.getBoard().placeShip('Battleship', 'F', 4, 'vertical');
+    activePlayer.getBoard().placeShip('Submarine', 'H', 1, 'vertical');
+    getInactivePlayer().getBoard().placeShip('Destroyer', 'A', 2);
+    getInactivePlayer().getBoard().placeShip('Carrier', 'B', 10);
+    getInactivePlayer().getBoard().placeShip('Cruiser', 'J', 1, 'vertical');
+    getInactivePlayer().getBoard().placeShip('Battleship', 'E', 5, 'vertical');
+    getInactivePlayer().getBoard().placeShip('Submarine', 'H', 1, 'vertical');
+};
 
 module.exports = Game;

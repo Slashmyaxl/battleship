@@ -13,9 +13,11 @@ function createDOMElement (element, classes, id) {
 const renderBoard = (id) => {
     const board = Gameboard().readBoard();
     const domBoard = createDOMElement('div', ['board'], id);
-    board.forEach(boardRow => boardRow.forEach(() => {
+    board.forEach(boardRow => boardRow.forEach((cell, index) => {
         const newCell = document.createElement('div');
         newCell.classList.add('cell');
+        newCell.dataset.column = cols[index];
+        newCell.dataset.row = board.indexOf(boardRow) + 1;
         domBoard.appendChild(newCell);
     }));
     return domBoard
@@ -24,10 +26,10 @@ const renderBoard = (id) => {
 const renderCells = (player, domBoard) => {
     const board = player.getBoard().readBoard();
     while (domBoard.firstChild) domBoard.removeChild(domBoard.lastChild);
-    board.forEach(row => row.forEach((cell, index) => {
+    board.forEach(boardRow => boardRow.forEach((cell, index) => {
         const newCell = createDOMElement('div', ['cell'])
         newCell.dataset.column = cols[index];
-        newCell.dataset.row = board.indexOf(row) + 1;
+        newCell.dataset.row = board.indexOf(boardRow) + 1;
         if (isOccupied(cell)) newCell.style.backgroundColor = '#777';
         if (cell === 'X') newCell.style.backgroundColor = 'red';
         if (cell === 'O') newCell.style.backgroundColor = 'lightgreen'

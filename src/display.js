@@ -1,23 +1,15 @@
 const { renderBoard, renderCells, addToLog, changeMarquee } = require('./display-helpers');
 
 const Display = {
+    marquee: document.querySelector('.marquee'),
     p1Container: document.getElementById('p1Board'),
     p2Container: document.getElementById('p2Board'),
     p1Header: document.getElementById('p1Header'),
     p2Header: document.getElementById('p2Header'),
-    marquee: document.querySelector('.marquee'),
     p1Board: renderBoard('p1'),
     p2Board: renderBoard('p2'),
     gamelog: document.querySelector('.log'),
     
-    getUserInput () {
-        const oppCells = document.querySelectorAll(`#p2 > .cell`)
-        const input = oppCells.forEach(cell => cell.addEventListener('click', () =>
-            [cell.dataset.column, cell.dataset.row]));
-        return input;
-    },
-    
-
     renderBoards (players) {
         this.p1Container.appendChild(this.p1Board);
         this.p2Container.appendChild(this.p2Board);
