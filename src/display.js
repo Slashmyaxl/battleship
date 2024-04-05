@@ -1,51 +1,45 @@
 const { renderBoard, renderCells, addToLog, changeMarquee } = require('./display-helpers');
 
-const Display = {
-    marquee: document.querySelector('.marquee'),
-    p1Container: document.getElementById('p1Container'),
-    p2Container: document.getElementById('p2Container'),
-    p1Header: document.getElementById('p1Header'),
-    p2Header: document.getElementById('p2Header'),
-    gamelog: document.querySelector('.log'),
-    p1Board: renderBoard('p1'),
-    p2Board: renderBoard('p2'),
-    
-    renderBoards () {
-        this.p1Container.appendChild(this.p1Board);
-        this.p2Container.appendChild(this.p2Board);
-        this.p1Header.textContent = 'You';
-        this.p2Header.textContent = 'Computer';
-    },
+const marquee = document.querySelector('.marquee')
+const p1Container = document.getElementById('p1Container')
+const p2Container = document.getElementById('p2Container')
+const p1Header = document.getElementById('p1Header')
+const p2Header = document.getElementById('p2Header')
+const gamelog = document.querySelector('.log')
+let p1Board;
+let p2Board;
 
-    p1UpdateBoard (board) {
-      renderCells(board, this.p1Board);
-    },
-
-    p2UpdateBoard (board) {
-      renderCells(board, this.p2Board, 'skyblue');
-    },
-
-    updateDisplay (player, cell, opponent, oppBoard, shipSunk) {
-        console.log(cell);
-        console.log(opponent)
-        changeMarquee(`${opponent.getPossessive()} turn`, this.marquee);
-        setTimeout(() => {
-            addToLog(player, cell, opponent, oppBoard, shipSunk, this.gamelog);
-        }, 100);
-        
-    },
-
-    clearLog () {
-        this.gamelog.textContent = '';
-    },
-
-    //updateLog (player, cell, oppBoard, shipSunk) {
-      //  ;
-    //},
-
-    gameOver (winner) {
-        this.marquee.textContent = `Winner: ${winner.getName()}`
+const Display = () => {  
+    const renderBoards = () => {
+        while (p1Container.contains(document.getElementById('p1'))) {
+            p1Container.removeChild(document.getElementById('p1'));
+        }
+        p1Container.appendChild(renderBoard('p1'));
+        while (p2Container.contains(document.getElementById('p2'))) {
+            p2Container.removeChild(document.getElementById('p2'));
+        }
+        p2Container.appendChild(renderBoard('p2'));
+        p1Header.textContent = 'You';
+        p2Header.textContent = 'Computer';
+        gamelog.textContent = '';
+        p1Board = document.getElementById('p1');
+        p2Board = document.getElementById('p2');
     }
+    const startGame = () => {
+        renderBoards();
+        marquee.textContent = "You're up, Admiral! Choose a cell on your opponent's board to attack."
+    }
+    const p1UpdateBoard = (board) => renderCells(board, p1Board);
+    const p2UpdateBoard = (board) => renderCells(board, p2Board, 'skyblue');
+    const updateDisplay = (player, cell, opponent, oppBoard, shipSunk) => {
+        changeMarquee(`${opponent.getPossessive()} turn`, marquee);
+        setTimeout(() => {
+            addToLog(player, cell, opponent, oppBoard, shipSunk, gamelog);
+        }, 100);  
+    }
+    function gameOver(winner) { marquee.textContent = `Winner: ${winner.getName()}` }
+
+    return { renderBoards, startGame, p1UpdateBoard, p2UpdateBoard, updateDisplay, gameOver }
 }
 
 module.exports = Display;
