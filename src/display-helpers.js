@@ -35,11 +35,15 @@ const renderCells = (gameboard, domBoard, color) => {
         }
         if (cell === 'X') {
             const newMarker = createDOMElement('div', ['marker']);
+            newMarker.dataset.column = cols[index];
+            newMarker.dataset.row = board.indexOf(boardRow) + 1;
             newMarker.style.backgroundColor = 'rgb(255, 60, 20)';
             newCell.appendChild(newMarker);
         }
         if (cell === 'O') {
             const newMarker = createDOMElement('div', ['marker']);
+            newMarker.dataset.column = cols[index];
+            newMarker.dataset.row = board.indexOf(boardRow) + 1;
             newMarker.style.backgroundColor = '#eee';
             newCell.appendChild(newMarker);
         }
@@ -48,7 +52,6 @@ const renderCells = (gameboard, domBoard, color) => {
 }
 
 const addToLog = (player, cell, opponent, oppBoard, shipSunk, domLog) => {
-
     const attackedCell = oppBoard.readBoard()[row(cell[1])][column(cell[0])];
 
     const newLine = createDOMElement('p', ['log-line']);
@@ -73,6 +76,7 @@ const addToLog = (player, cell, opponent, oppBoard, shipSunk, domLog) => {
 const changeMarquee = (textContent, domNode) => {
     const node = domNode;
     node.textContent = textContent;
+    node.style.fontSize = '30px'
     return node;
 }
 

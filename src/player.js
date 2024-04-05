@@ -1,8 +1,7 @@
 const { isOccupied } = require('./helpers');
 const { cols } = require('./conversions');
 
-function Player(id, name, computer = false) {
-    const getId = () => id;
+function Player(name, computer = false) {
     const getName = () => name;
     const getPossessive = () => name === 'You' ? 'Your' : `${name}'s`;
     const isComputer = () => computer === true;
@@ -18,7 +17,7 @@ function Player(id, name, computer = false) {
         return chosenCell;
     }
 
-    return { getId, getName, getPossessive, isComputer, randomAttack }
+    return { getName, getPossessive, isComputer, randomAttack }
 }
 
 module.exports = Player

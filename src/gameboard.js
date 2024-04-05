@@ -76,6 +76,7 @@ const Gameboard = () => {
       if (cell.isSunk()) sunkShip = cell.getName()
       board[row(y)][column(x)] = "X";
     } else board[row(y)][column(x)] = "O";
+    
     return { cell: [x, y], sunkShip };
   }
 

@@ -31,11 +31,14 @@ h1 {
     color: #222;
     background: lightyellow;
     text-align: center;
-    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 0.25rem;
     box-shadow: inset 2px 2px 4px #555,
                 inset -2px -2px 4px lightgray;
     width: 400px;
+    height: 4rem;
     font-size: 1.2rem;
 }
 
