@@ -9,8 +9,8 @@ const gamelog = document.querySelector('.log')
 let p1Board;
 let p2Board;
 
-const Display = () => {  
-    const renderBoards = () => {
+const Display = {  
+    renderBoards () {
         while (p1Container.contains(document.getElementById('p1'))) {
             p1Container.removeChild(document.getElementById('p1'));
         }
@@ -24,22 +24,23 @@ const Display = () => {
         gamelog.textContent = '';
         p1Board = document.getElementById('p1');
         p2Board = document.getElementById('p2');
-    }
-    const startGame = () => {
-        renderBoards();
+    },
+    
+    startGame () {
+        this.renderBoards();
         marquee.textContent = "You're up, Admiral! Choose a cell on your opponent's board to attack."
-    }
-    const p1UpdateBoard = (board) => renderCells(board, p1Board);
-    const p2UpdateBoard = (board) => renderCells(board, p2Board, 'skyblue');
-    const updateDisplay = (player, cell, opponent, oppBoard, shipSunk) => {
+    },
+
+    p1UpdateBoard (board) { renderCells(board, p1Board) },
+    p2UpdateBoard (board) { renderCells(board, p2Board, 'skyblue') },
+    updateDisplay (player, cell, opponent, oppBoard, shipSunk) {
         changeMarquee(`${opponent.getPossessive()} turn`, marquee);
         setTimeout(() => {
             addToLog(player, cell, opponent, oppBoard, shipSunk, gamelog);
         }, 100);  
-    }
-    function gameOver(winner) { marquee.textContent = `Winner: ${winner.getName()}` }
+    },
 
-    return { renderBoards, startGame, p1UpdateBoard, p2UpdateBoard, updateDisplay, gameOver }
+    gameOver(winner) { marquee.textContent = `Winner: ${winner.getName()}` }
 }
 
 module.exports = Display;
