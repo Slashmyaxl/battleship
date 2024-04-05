@@ -50,17 +50,45 @@ function Game() {
   })
 
   function placeAllShips() {
+    const shipNames = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer'];
+    let index = 0
+    let currentShip = shipNames[index];
+    let orientation = 'vertical'
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'v') {
+        if (orientation === 'vertical') orientation = '';
+        else orientation = 'vertical';
+      }
+    })
+
+    p1DisplayBoard.addEventListener('mouseover', (e) => {
+      e.target.style.backgroundColor = 'lightgray';
+    })
+
+    p1DisplayBoard.addEventListener('mouseout', (e) => {
+      e.target.style.backgroundColor = 'inherit';
+    })
+    
+    p1DisplayBoard.addEventListener('click', (e) => {
+      if (currentShip)
+        p1Board.placeShip(currentShip, e.target.dataset.column, e.target.dataset.row, orientation);
+        currentShip = shipNames[++index]
+        Display.p1UpdateBoard(p1Board);
+      })
+    }
+    /*
     p1Board.placeShip('Destroyer', 'B', 2);
     p1Board.placeShip('Carrier', 'C', 9);
     p1Board.placeShip('Cruiser', 'A', 3, 'vertical');
     p1Board.placeShip('Battleship', 'F', 4, 'vertical');
-    p1Board.placeShip('Submarine', 'H', 1, 'vertical');
+    p1Board.placeShip('Submarine', 'H', 1, 'vertical'); */
     p2Board.placeShip('Destroyer', 'A', 2);
     p2Board.placeShip('Carrier', 'B', 10);
     p2Board.placeShip('Cruiser', 'J', 1, 'vertical');
     p2Board.placeShip('Battleship', 'E', 5, 'vertical');
     p2Board.placeShip('Submarine', 'H', 1, 'vertical');
   };
-}
+
 
 module.exports = Game;

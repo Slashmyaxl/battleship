@@ -1,38 +1,31 @@
 const Player = require('./player')
-const { row, column } = require ('./conversions')
+const Gameboard = require ('./gameboard');
 
-const player1 = Player('Nimitz');
-const player2 = Player('Computer');
+const player1 = Player('You');
+const p1Board = Gameboard();
+const player2 = Player('Computer', true);
 
-describe('player attacks', () => {
-
-    beforeAll(() => { 
-        player2.getBoard().placeShip('Destroyer', 'B', 5);
-        player1.attack('B', 4, player2);
-        player1.attack('B', 5, player2);
-    });
-
+describe('player attributes', () => {
     test('player name', () => {
-        expect(player1.displayName()).toBe('Nimitz')
+        expect(player1.getName()).toBe('You');
+        expect(player2.getName()).toBe('Computer')
     })
 
-    test('player misses on opponent\'s board', () => {
-        expect(player2.getBoard().readBoard()[row(4)][column('B')]).toBe('O');
+    test('player possessive pronoun', () => {
+        expect(player2.getPossessive()).toBe('Computer\'s');
+        expect(player1.getPossessive()).toBe('Your');
     })
 
-    test('opponent board registers hit', () => {
-        expect(player2.getBoard().readBoard()[row(5)][column('B')]).toBe('X');
+    test('non-human player correctly determined', () => {
+        expect(player1.isComputer()).toBeFalsy();
+        expect(player2.isComputer()).toBeTruthy();
     })
 })
 
-describe('computer attacks', () => {
-    player1.getBoard().receiveAttack('A', 2);
-    player1.getBoard().receiveAttack('B', 3);
-    player1.getBoard().receiveAttack('A', 8)
-
-    test('random attack', () => {
-        player2.randomAttack(player1);
-        expect(player1.getBoard().readBoard().find(row => row.includes('O'))).toBeTruthy()
+describe('computer chooses random cell', () => {
+    test('cell returned in proper format', () => {
+        expect(player2.randomAttack(p1Board)).toEqual(expect.any(Array))
+        expect(player2.randomAttack(p1Board)).toHaveLength(2);
     })
 
 })

@@ -28,7 +28,8 @@ const Display = {
     
     startGame () {
         this.renderBoards();
-        marquee.textContent = "You're up, Admiral! Choose a cell on your opponent's board to attack."
+        marquee.style.fontSize = '22px';
+        marquee.textContent = 'You\'re up, Admiral! Position your fleet on desired cells.'
     },
 
     p1UpdateBoard (board) { renderCells(board, p1Board) },

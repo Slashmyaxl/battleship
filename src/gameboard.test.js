@@ -10,9 +10,6 @@ describe('ship placement', () => {
     p1Board.placeShip('Destroyer', 'G', 7);
     p1Board.placeShip('Submarine', 'H', 1);
   });
-  afterAll(() => {
-    p1Board.placeShip('Cruiser', 'B', 2);
-  })
 
   test('vertical placement', () => {
     expect(p1Board.readBoard()[row(2)][column('F')]).toHaveProperty('name', 'Carrier')
@@ -30,18 +27,17 @@ describe('ship placement', () => {
     expect(p1Board.readBoard()[row(3)][column('E')]).toBe(' ')
   })
 
-  describe('ship collision', () => {
-  
-    test('ships not allowed to occupy same cell', () => {
-      expect(() => {
-        p1Board.placeShip('Cruiser', 'A', 2, 'vertical');
-      }).toThrow(new Error('Ship Collision!'));
 
-      expect(p1Board.readBoard()[row(2)][column('A')]).toBe(' ');
-      expect(p1Board.readBoard()[row(3)][column('A')]).toHaveProperty('name', 'Battleship');
-      expect(p1Board.readBoard()[row(4)][column('A')]).toBe(' ');
-    })
+  test('ships not allowed to occupy same cell', () => {
+    expect(() => {
+      p1Board.placeShip('Cruiser', 'A', 2, 'vertical');
+    }).toThrow(new Error('Ship Collision!'));
+
+    expect(p1Board.readBoard()[row(2)][column('A')]).toBe(' ');
+    expect(p1Board.readBoard()[row(3)][column('A')]).toHaveProperty('name', 'Battleship');
+    expect(p1Board.readBoard()[row(4)][column('A')]).toBe(' ');
   })
+
 })
 
 describe('receiving attacks', () => {

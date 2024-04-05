@@ -69,11 +69,11 @@ const Gameboard = () => {
 
   function receiveAttack(x, y) {
     let sunkShip = null;
-    const cell = board[row(y)][column(x)];
-    if (cell === "X" || cell === "O") throw new Error('Cell already hit!')
-    else if (isOccupied(cell)) {
-      cell.hit();
-      if (cell.isSunk()) sunkShip = cell.getName()
+    const attackedCell = board[row(y)][column(x)];
+    if (attackedCell === "X" || attackedCell === "O") throw new Error('Cell already hit!')
+    else if (isOccupied(attackedCell)) {
+      attackedCell.hit();
+      if (attackedCell.isSunk()) sunkShip = attackedCell.name
       board[row(y)][column(x)] = "X";
     } else board[row(y)][column(x)] = "O";
     
