@@ -16,7 +16,7 @@ function Game() {
   
   placeAllShips();   
   
-  
+  Display.p1UpdateBoard(p1Board)
   Display.p2UpdateBoard(p2Board);
 
   function isGameOver() {
@@ -59,7 +59,7 @@ function Game() {
     p2Board.placeShip('Carrier', 'B', 10);
     p2Board.placeShip('Cruiser', 'J', 1, 'vertical');
     p2Board.placeShip('Battleship', 'E', 5, 'vertical');
-    p2Board.placeShip('Submarine', 'H', 1, 'vertical'); */
+    p2Board.placeShip('Submarine', 'H', 1, 'vertical');
   };
 }
 
