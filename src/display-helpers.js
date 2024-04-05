@@ -22,28 +22,41 @@ const renderBoard = (id) => {
     return domBoard
 }
 
-const renderCells = (player, domBoard) => {
-    const board = player.getBoard().readBoard();
+const renderCells = (gameboard, domBoard, color) => {
+    const board = gameboard.readBoard();
     while (domBoard.firstChild) domBoard.removeChild(domBoard.lastChild);
     board.forEach(boardRow => boardRow.forEach((cell, index) => {
         const newCell = createDOMElement('div', ['cell'])
         newCell.dataset.column = cols[index];
         newCell.dataset.row = board.indexOf(boardRow) + 1;
-        if (isOccupied(cell)) newCell.style.backgroundColor = '#777';
-        if (cell === 'X') newCell.style.backgroundColor = 'red';
-        if (cell === 'O') newCell.style.backgroundColor = 'lightgreen'
+        if (isOccupied(cell)) {
+            if (color) newCell.style.backgroundColor = color
+            else newCell.style.backgroundColor = '#777';
+        }
+        if (cell === 'X') {
+            const newMarker = createDOMElement('div', ['marker']);
+            newMarker.style.backgroundColor = 'rgb(255, 60, 20)';
+            newCell.appendChild(newMarker);
+        }
+        if (cell === 'O') {
+            const newMarker = createDOMElement('div', ['marker']);
+            newMarker.style.backgroundColor = '#eee';
+            newCell.appendChild(newMarker);
+        }
         domBoard.appendChild(newCell);
     }));
 }
 
-const addToLog = (player, cell, opponent, shipSunk, domLog) => {
-    const attackedCell = opponent.getBoard().readBoard()[row(cell[1])][column(cell[0])];
+const addToLog = (player, cell, opponent, oppBoard, shipSunk, domLog) => {
+
+    const attackedCell = oppBoard.readBoard()[row(cell[1])][column(cell[0])];
+
     const newLine = createDOMElement('p', ['log-line']);
     newLine.textContent = `${player.getName()} attacked ${cell.join(', ')} ... it's a `;
     const span = createDOMElement('span', ['log-span']);
     if (attackedCell === 'X') {
         span.textContent = 'HIT!';
-        span.style.color = 'rgb(255, 100, 40)';
+        span.style.color = 'rgb(255, 60, 20)';
     } else if (attackedCell === 'O') {
         span.textContent = 'MISS!';
         span.style.color = '#eee'

@@ -73,10 +73,10 @@ const Gameboard = () => {
     if (cell === "X" || cell === "O") throw new Error('Cell already hit!')
     else if (isOccupied(cell)) {
       cell.hit();
-      if (cell.isSunk()) sunkShip = cell.name
+      if (cell.isSunk()) sunkShip = cell.getName()
       board[row(y)][column(x)] = "X";
     } else board[row(y)][column(x)] = "O";
-    return sunkShip;
+    return { cell: [x, y], sunkShip };
   }
 
   return { readBoard, receiveAttack, placeShip, allShipsSunk, getAllShips };

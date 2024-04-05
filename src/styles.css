@@ -31,6 +31,7 @@ h1 {
     color: #222;
     background: lightyellow;
     text-align: center;
+    vertical-align: middle;
     border-radius: 0.25rem;
     box-shadow: inset 2px 2px 4px #555,
                 inset -2px -2px 4px lightgray;
@@ -58,16 +59,19 @@ h1 {
 .board-container {
     border: 6px solid #222;
     border-radius: 5px;
+    letter-spacing: 0.025rem;
 }
 
 .board-header {
     height: 40px;
     background: #e2e2e2;
-    text-align: center;
     padding: 4px;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: bold;
     border-bottom: 3px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .board {
@@ -81,6 +85,16 @@ h1 {
     height: 10%;
     width: 10%;
     border: 1px dotted black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.marker {
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    box-shadow: 1px 1px 4px #444;
 }
 
 .log-container {
@@ -104,7 +118,7 @@ h1 {
 }
 
 .log {
-    color: hsl(313, 100%, 80%);
+    color: hsl(313, 100%, 85%);
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.85rem;
     padding: 3px 5px;
@@ -120,5 +134,5 @@ h1 {
 
 .log-line-sunk {
   font-style: italic;
-  color: rgb(248, 19, 19);
+  color: yellow;
 }
