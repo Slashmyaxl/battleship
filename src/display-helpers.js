@@ -76,7 +76,7 @@ const addToLog = (player, cell, opponent, oppBoard, shipSunk, domLog) => {
 const changeMarquee = (textContent, domNode) => {
     const node = domNode;
     node.textContent = textContent;
-    node.style.fontSize = '30px'
+    node.style.fontSize = '26px'
     return node;
 }
 

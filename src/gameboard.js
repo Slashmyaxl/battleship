@@ -51,9 +51,13 @@ const Gameboard = () => {
       default:
         newShip = destroyer;
     }
-
-    if (checkCollisions(board, x, y, orientation, newShip)) throw new Error('Ship Collision!')
-
+   
+    try {
+      (checkCollisions(board, x, y, orientation, newShip))
+    } catch (error) {
+      return error;
+    }
+   
     if(orientation === 'vertical') {
       for (let i = 1; i <= newShip.getShipLength(); i++) {
         board[rowIndex][colIndex] = newShip;
@@ -65,6 +69,7 @@ const Gameboard = () => {
         colIndex++;
       }
     }
+    return true;
   }
 
   function receiveAttack(x, y) {

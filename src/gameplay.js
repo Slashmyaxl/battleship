@@ -14,16 +14,14 @@ function Game() {
   const p1DisplayBoard = document.getElementById('p1');
   const p2DisplayBoard = document.getElementById('p2')
   
-  placeAllShips();   
-  
-  Display.p1UpdateBoard(p1Board)
+  placePlayerShips();   
+  Display.p1UpdateBoard(p1Board);
+  placeComputerShips();
   Display.p2UpdateBoard(p2Board);
 
   function isGameOver() {
     return p2Board.allShipsSunk() || p1Board.allShipsSunk();
   }
-
-
 
   p2DisplayBoard.addEventListener('click', (e) => {
     if (currentPlayer === player1 && !isGameOver()) {
@@ -49,11 +47,18 @@ function Game() {
     }, 500)
   })
 
-  function placeAllShips() {
+  function placePlayerShips(index = 0) {
     const shipNames = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer'];
-    let index = 0
-    let currentShip = shipNames[index];
-    let orientation = 'vertical'
+    if (index >= shipNames.length) return;
+
+    const currentShip = shipNames[index];
+    if (currentShip !== 'Carrier') {
+      setTimeout(() => {
+        Display.updateMarquee(`Place your ${currentShip} (press V to switch orientation).`)
+      }, 800);
+    }
+    
+    let orientation = 'vertical';
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'v') {
@@ -62,6 +67,19 @@ function Game() {
       }
     })
 
+    p1DisplayBoard.addEventListener('click', (e) => {
+        const placedShip = p1Board.placeShip(currentShip, e.target.dataset.column, e.target.dataset.row, orientation);
+        console.log(placedShip)
+        if (placedShip === true) {
+          Display.p1UpdateBoard(p1Board);
+          placePlayerShips(++index)
+        } else {
+          Display.updateMarquee(placedShip);
+          placePlayerShips(index);
+        }
+      }, { once: true })
+    }
+
     p1DisplayBoard.addEventListener('mouseover', (e) => {
       e.target.style.backgroundColor = 'lightgray';
     })
@@ -69,25 +87,14 @@ function Game() {
     p1DisplayBoard.addEventListener('mouseout', (e) => {
       e.target.style.backgroundColor = 'inherit';
     })
-    
-    p1DisplayBoard.addEventListener('click', (e) => {
-      if (currentShip)
-        p1Board.placeShip(currentShip, e.target.dataset.column, e.target.dataset.row, orientation);
-        currentShip = shipNames[++index]
-        Display.p1UpdateBoard(p1Board);
-      })
+
+    function placeComputerShips () {
+      p2Board.placeShip('Destroyer', 'A', 2);
+      p2Board.placeShip('Carrier', 'B', 10);
+      p2Board.placeShip('Cruiser', 'J', 1, 'vertical');
+      p2Board.placeShip('Battleship', 'E', 5, 'vertical');
+      p2Board.placeShip('Submarine', 'H', 1, 'vertical');
     }
-    /*
-    p1Board.placeShip('Destroyer', 'B', 2);
-    p1Board.placeShip('Carrier', 'C', 9);
-    p1Board.placeShip('Cruiser', 'A', 3, 'vertical');
-    p1Board.placeShip('Battleship', 'F', 4, 'vertical');
-    p1Board.placeShip('Submarine', 'H', 1, 'vertical'); */
-    p2Board.placeShip('Destroyer', 'A', 2);
-    p2Board.placeShip('Carrier', 'B', 10);
-    p2Board.placeShip('Cruiser', 'J', 1, 'vertical');
-    p2Board.placeShip('Battleship', 'E', 5, 'vertical');
-    p2Board.placeShip('Submarine', 'H', 1, 'vertical');
   };
 
 

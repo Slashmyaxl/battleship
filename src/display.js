@@ -28,8 +28,7 @@ const Display = {
     
     startGame () {
         this.renderBoards();
-        marquee.style.fontSize = '22px';
-        marquee.textContent = 'You\'re up, Admiral! Position your fleet on desired cells.'
+        marquee.textContent = 'Place your Carrier (press V to swtich orientation).'
     },
 
     p1UpdateBoard (board) { renderCells(board, p1Board) },
@@ -40,7 +39,9 @@ const Display = {
             addToLog(player, cell, opponent, oppBoard, shipSunk, gamelog);
         }, 100);  
     },
-
+    updateMarquee (text) {
+        changeMarquee(text, marquee);
+    },
     gameOver(winner) { marquee.textContent = `Winner: ${winner.getName()}` }
 }
 
