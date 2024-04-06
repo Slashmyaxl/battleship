@@ -7,10 +7,10 @@ const p1Board = Gameboard();
 
 describe('ship placement', () => {
   beforeAll(() => {
-    p1Board.placeShip('Carrier', 'F', 2, 'vertical');
-    p1Board.placeShip('Battleship', 'A', 3);
-    p1Board.placeShip('Destroyer', 'G', 7);
-    p1Board.placeShip('Submarine', 'H', 1);
+    p1Board.placeShip(Ship('Carrier', 5), 'F', 2, 'vertical');
+    p1Board.placeShip(Ship('Battleship', 4), 'A', 3);
+    p1Board.placeShip(Ship('Destroyer', 2), 'G', 7);
+    p1Board.placeShip(Ship('Submarine', 3), 'H', 1);
   });
 
   test('vertical placement', () => {
@@ -30,7 +30,7 @@ describe('ship placement', () => {
   })
 
   test('collision check', () => {
-    p1Board.placeShip('Cruiser', 'A', 2, 'vertical');
+    p1Board.placeShip(Ship('Cruiser', 3), 'A', 2, 'vertical');
     expect(() => {
       checkCollisions(p1Board.readBoard(), 'A', 2, 'vertical', Ship('Cruiser', 3))
     }).toThrow(new Error('Ship Collision!'));

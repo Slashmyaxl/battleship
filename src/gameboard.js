@@ -13,59 +13,36 @@ const Gameboard = () => {
       board.push(newRow);
     }
   })();
-
-  const carrier = Ship('Carrier', 5);
-  const battleship = Ship('Battleship', 4);
-  const cruiser = Ship('Cruiser', 3);
-  const submarine = Ship('Submarine', 3);
-  const destroyer = Ship('Destroyer', 2);
-
-  // For development use to test whether all ships are sunk
   
-  const allShips = [carrier, battleship, cruiser, submarine, destroyer];
+  const readBoard = () => board;
+  const allShips = [];
   const getAllShips = () => allShips;
 
-  const allShipsSunk = () =>
-    carrier.isSunk() && battleship.isSunk() && cruiser.isSunk() && submarine.isSunk() && destroyer.isSunk();
+  function allShipsSunk () {
+    if (allShips.length < 4) return false;
+    return allShips.filter(ship => ship.isSunk()).length === 4; 
+  }
 
-  const readBoard = () => board;
-
-  function placeShip(ship, x, y, orientation) {
-    let newShip;
+  function placeShip(shipObj, x, y, orientation) {
+    if (allShips.length > 4) throw new Error ('Ship limit exceeded.')
     let colIndex = column(x);
     let rowIndex = row(y);
-
-    switch (ship) {
-      case 'Carrier':
-        newShip = carrier;
-        break;
-      case 'Battleship':
-        newShip = battleship;
-        break;
-      case 'Cruiser':
-        newShip = cruiser;
-        break;
-      case 'Submarine':
-        newShip = submarine;
-        break;
-      default:
-        newShip = destroyer;
-    }
    
     try {
-      (checkCollisions(board, x, y, orientation, newShip))
+      (checkCollisions(board, x, y, orientation, shipObj))
     } catch (error) {
       return error;
     }
    
+    allShips.push(shipObj);
     if(orientation === 'vertical') {
-      for (let i = 1; i <= newShip.getShipLength(); i++) {
-        board[rowIndex][colIndex] = newShip;
+      for (let i = 1; i <= shipObj.getShipLength(); i++) {
+        board[rowIndex][colIndex] = shipObj;
         rowIndex++;
       }
     } else {
-      for (let i = 1; i <= newShip.getShipLength(); i++) {
-        board[rowIndex][colIndex] = newShip;
+      for (let i = 1; i <= shipObj.getShipLength(); i++) {
+        board[rowIndex][colIndex] = shipObj;
         colIndex++;
       }
     }
