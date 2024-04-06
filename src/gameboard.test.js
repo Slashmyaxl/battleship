@@ -1,4 +1,6 @@
 const Gameboard = require("./gameboard");
+const Ship = require ('./ship')
+const { checkCollisions } = require ('./helpers')
 const { row, column } = require('./conversions');
 
 const p1Board = Gameboard();
@@ -27,10 +29,10 @@ describe('ship placement', () => {
     expect(p1Board.readBoard()[row(3)][column('E')]).toBe(' ')
   })
 
-
-  test('ships not allowed to occupy same cell', () => {
+  test('collision check', () => {
+    p1Board.placeShip('Cruiser', 'A', 2, 'vertical');
     expect(() => {
-      p1Board.placeShip('Cruiser', 'A', 2, 'vertical');
+      checkCollisions(p1Board.readBoard(), 'A', 2, 'vertical', Ship('Cruiser', 3))
     }).toThrow(new Error('Ship Collision!'));
 
     expect(p1Board.readBoard()[row(2)][column('A')]).toBe(' ');
