@@ -7,10 +7,10 @@ const p1Board = Gameboard();
 
 describe('ship placement', () => {
   beforeAll(() => {
-    p1Board.placeShip(Ship('Carrier', 5), 'F', 2, 'vertical');
-    p1Board.placeShip(Ship('Battleship', 4), 'A', 3);
-    p1Board.placeShip(Ship('Destroyer', 2), 'G', 7);
-    p1Board.placeShip(Ship('Submarine', 3), 'H', 1);
+    p1Board.placeShip(Ship('Carrier'), 'F', 2, 'vertical');
+    p1Board.placeShip(Ship('Battleship'), 'A', 3);
+    p1Board.placeShip(Ship('Destroyer'), 'G', 7);
+    p1Board.placeShip(Ship('Submarine'), 'H', 1);
   });
 
   test('vertical placement', () => {
@@ -30,9 +30,9 @@ describe('ship placement', () => {
   })
 
   test('collision check', () => {
-    p1Board.placeShip(Ship('Cruiser', 3), 'A', 2, 'vertical');
+    p1Board.placeShip(Ship('Cruiser'), 'A', 2, 'vertical');
     expect(() => {
-      checkCollisions(p1Board.readBoard(), 'A', 2, 'vertical', Ship('Cruiser', 3))
+      checkCollisions(p1Board.readBoard(), 'A', 2, 'vertical', Ship('Cruiser'))
     }).toThrow(new Error('Ship Collision!'));
 
     expect(p1Board.readBoard()[row(2)][column('A')]).toBe(' ');
@@ -82,6 +82,7 @@ describe('sinking ships', () => {
   })
 
   test('all ships sunk', () => {
+    p1Board.placeShip(Ship('Cruiser'), 'H', 2, 'vertical')
     const allShips = p1Board.getAllShips();
     allShips.forEach(ship => {
       ship.hit();

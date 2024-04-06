@@ -1,4 +1,3 @@
-const Ship = require('./ship')
 const { row, column } = require('./conversions');
 const { checkCollisions, isOccupied } = require ('./helpers')
 
@@ -19,8 +18,8 @@ const Gameboard = () => {
   const getAllShips = () => allShips;
 
   function allShipsSunk () {
-    if (allShips.length < 4) return false;
-    return allShips.filter(ship => ship.isSunk()).length === 4; 
+    if (allShips.length < 5) return false;
+    return allShips.filter(ship => ship.isSunk()).length === 5; 
   }
 
   function placeShip(shipObj, x, y, orientation) {

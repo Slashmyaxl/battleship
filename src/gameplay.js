@@ -1,6 +1,9 @@
 const Player = require('./player');
+const Ship = require('./ship')
 const Display = require('./display');
 const Gameboard = require('./gameboard');
+
+const allShips = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
 
 function Game() {
   Display.startGame();
@@ -48,54 +51,47 @@ function Game() {
   })
 
   function placePlayerShips(index = 0) {
-    const shipNames = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer'];
-    if (index >= shipNames.length) return;
-
-    const currentShip = shipNames[index];
-    if (currentShip !== 'Carrier') {
-      setTimeout(() => {
-        Display.updateMarquee(`Place your ${currentShip} (press V to switch orientation).`)
-      }, 800);
-    }
-    
+    if (index >= allShips.length) return;
+    const currentShip = allShips[index];
+    Display.updateMarquee(`Place your ${currentShip} (press V to switch orientation).`)
     let orientation = 'vertical';
 
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'v') {
-        if (orientation === 'vertical') orientation = '';
-        else orientation = 'vertical';
-      }
+      if (e.key === 'v' && orientation === 'vertical') orientation = ''
+      else orientation = 'vertical'
     })
 
     p1DisplayBoard.addEventListener('click', (e) => {
-        const placedShip = p1Board.placeShip(currentShip, e.target.dataset.column, e.target.dataset.row, orientation);
-        console.log(placedShip)
-        if (placedShip === true) {
-          Display.p1UpdateBoard(p1Board);
-          placePlayerShips(++index)
-        } else {
-          Display.updateMarquee(placedShip);
-          placePlayerShips(index);
-        }
-      }, { once: true })
-    }
+      const data = e.target.dataset;
+      const placedShip = p1Board.placeShip(Ship(currentShip), data.column, data.row, orientation);
+      if (placedShip === true) {
+        Display.p1UpdateBoard(p1Board);
+        placePlayerShips(++index)
+      } else {
+        Display.updateMarquee(placedShip);
+        placePlayerShips(index);
+      }
+    }, { once: true });
 
     p1DisplayBoard.addEventListener('mouseover', (e) => {
+      const data = e.target.dataset
+      const adjacentCells = 
       e.target.style.backgroundColor = 'lightgray';
     })
 
     p1DisplayBoard.addEventListener('mouseout', (e) => {
       e.target.style.backgroundColor = 'inherit';
     })
+  }
 
-    function placeComputerShips () {
-      p2Board.placeShip('Destroyer', 'A', 2);
-      p2Board.placeShip('Carrier', 'B', 10);
-      p2Board.placeShip('Cruiser', 'J', 1, 'vertical');
-      p2Board.placeShip('Battleship', 'E', 5, 'vertical');
-      p2Board.placeShip('Submarine', 'H', 1, 'vertical');
-    }
-  };
+  function placeComputerShips () {
+    p2Board.placeShip(Ship(allShips[0]), 'A', 2);
+    p2Board.placeShip(Ship(allShips[1]), 'B', 10);
+    p2Board.placeShip(Ship(allShips[2]), 'J', 1, 'vertical');
+    p2Board.placeShip(Ship(allShips[3]), 'E', 5, 'vertical');
+    p2Board.placeShip(Ship(allShips[4]), 'H', 1, 'vertical');
+  }
+};
 
 
 module.exports = Game;

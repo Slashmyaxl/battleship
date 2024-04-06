@@ -1,13 +1,19 @@
 const Ship = require('./ship');
 
-const cruiser = Ship('Cruiser', 3);
-const destroyer = Ship('Destroyer', 2);
+const cruiser = Ship('Cruiser');
+const destroyer = Ship('Destroyer');
 
 beforeAll(() => {
     destroyer.hit();
     destroyer.hit();
     cruiser.hit();
     cruiser.hit();
+})
+
+test('invalid ship name', () => {
+    expect(() => {
+        Ship('Schooner')
+    }).toThrow(new Error('Unexpected ship name.'))
 })
 
 test('ship sunk once length === hits', () => {
