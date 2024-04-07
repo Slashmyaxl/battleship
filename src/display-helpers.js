@@ -22,7 +22,7 @@ const renderBoard = (id) => {
     return domBoard
 }
 
-const renderCells = (gameboard, domBoard, color) => {
+const renderCells = (gameboard, domBoard, showShips = true) => {
     const board = gameboard.readBoard();
     while (domBoard.firstChild) domBoard.removeChild(domBoard.lastChild);
     board.forEach(boardRow => boardRow.forEach((cell, index) => {
@@ -30,8 +30,7 @@ const renderCells = (gameboard, domBoard, color) => {
         newCell.dataset.column = cols[index];
         newCell.dataset.row = board.indexOf(boardRow) + 1;
         if (isOccupied(cell)) {
-            if (color) newCell.style.backgroundColor = color
-            else newCell.style.backgroundColor = '#777';
+            if (showShips) newCell.style.backgroundColor = '#666';
         }
         if (cell === 'X') {
             const newMarker = createDOMElement('div', ['marker']);

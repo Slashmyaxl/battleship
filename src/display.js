@@ -32,7 +32,7 @@ const Display = {
     },
 
     p1UpdateBoard (board) { renderCells(board, p1Board) },
-    p2UpdateBoard (board) { renderCells(board, p2Board, 'skyblue') },
+    p2UpdateBoard (board) { renderCells(board, p2Board, false) },
     updateDisplay (player, cell, opponent, oppBoard, shipSunk) {
         changeMarquee(`${opponent.getPossessive()} turn`, marquee);
         setTimeout(() => {

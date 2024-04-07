@@ -5,7 +5,7 @@ const Gameboard = require('./gameboard');
 
 const allShips = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
 
-function Game() {
+async function Game() {
   Display.startGame();
   const player1 = Player('You');
   const player2 = Player('Computer', true);
@@ -13,11 +13,10 @@ function Game() {
   const p2Board = Gameboard();
   let currentPlayer = player1;
   
-
   const p1DisplayBoard = document.getElementById('p1');
   const p2DisplayBoard = document.getElementById('p2')
   
-  placePlayerShips();   
+  placePlayerShips();
   Display.p1UpdateBoard(p1Board);
   placeComputerShips();
   Display.p2UpdateBoard(p2Board);
@@ -52,18 +51,18 @@ function Game() {
 
   function placePlayerShips(index = 0) {
     if (index >= allShips.length) return;
-    const currentShip = allShips[index];
-    Display.updateMarquee(`Place your ${currentShip} (press V to switch orientation).`)
+    const currentShip = Ship(allShips[index]);
+    Display.updateMarquee(`Place your ${currentShip.name} (press R to switch orientation).`)
     let orientation = 'vertical';
 
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'v' && orientation === 'vertical') orientation = ''
+      if (e.key === 'r' && orientation === 'vertical') orientation = ''
       else orientation = 'vertical'
     })
 
     p1DisplayBoard.addEventListener('click', (e) => {
       const data = e.target.dataset;
-      const placedShip = p1Board.placeShip(Ship(currentShip), data.column, data.row, orientation);
+      const placedShip = p1Board.placeShip(currentShip, data.column, data.row, orientation);
       if (placedShip === true) {
         Display.p1UpdateBoard(p1Board);
         placePlayerShips(++index)
@@ -73,15 +72,6 @@ function Game() {
       }
     }, { once: true });
 
-    p1DisplayBoard.addEventListener('mouseover', (e) => {
-      const data = e.target.dataset
-      const adjacentCells = 
-      e.target.style.backgroundColor = 'lightgray';
-    })
-
-    p1DisplayBoard.addEventListener('mouseout', (e) => {
-      e.target.style.backgroundColor = 'inherit';
-    })
   }
 
   function placeComputerShips () {
