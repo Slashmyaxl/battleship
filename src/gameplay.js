@@ -52,7 +52,6 @@ async function Game() {
   function placePlayerShips(index = 0) {
     if (index >= allShips.length) return;
     const currentShip = Ship(allShips[index]);
-    Display.updateMarquee(`Place your ${currentShip.name} (press R to switch orientation).`)
     let orientation = 'vertical';
 
     window.addEventListener('keydown', (e) => {

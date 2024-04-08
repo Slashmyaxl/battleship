@@ -1,4 +1,4 @@
-const { renderBoard, renderCells, addToLog, changeMarquee } = require('./display-helpers');
+const { renderBoard, renderCells, addToLog, changeMarquee, createShip } = require('./display-helpers');
 
 const marquee = document.querySelector('.marquee')
 const p1Container = document.getElementById('p1Container')
@@ -6,6 +6,7 @@ const p2Container = document.getElementById('p2Container')
 const p1Header = document.getElementById('p1Header')
 const p2Header = document.getElementById('p2Header')
 const gamelog = document.querySelector('.log')
+const shipContainer = document.querySelector('.ship-container')
 let p1Board;
 let p2Board;
 
@@ -17,7 +18,7 @@ const Display = {
         p1Container.appendChild(renderBoard('p1'));
         while (p2Container.contains(document.getElementById('p2'))) {
             p2Container.removeChild(document.getElementById('p2'));
-        }
+        } 
         p2Container.appendChild(renderBoard('p2'));
         p1Header.textContent = 'You';
         p2Header.textContent = 'Computer';
@@ -28,7 +29,20 @@ const Display = {
     
     startGame () {
         this.renderBoards();
-        marquee.textContent = 'Place your Carrier (press V to swtich orientation).'
+        this.renderShips();
+        marquee.textContent = 'Place your ships (press R to rotate).'
+    },
+
+    renderShips() {
+        const ships = [
+            createShip('Carrier', 5),
+            createShip('Battleship', 4),
+            createShip('Cruiser', 3),
+            createShip('Submarine', 3),
+            createShip('Destroyer', 2)
+        ];
+        while (shipContainer.firstChild) shipContainer.removeChild(shipContainer.lastChild);
+        ships.forEach(ship => shipContainer.appendChild(ship))
     },
 
     p1UpdateBoard (board) { renderCells(board, p1Board) },

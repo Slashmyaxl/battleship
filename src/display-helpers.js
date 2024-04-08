@@ -22,6 +22,15 @@ const renderBoard = (id) => {
     return domBoard
 }
 
+const createShip = function createShipOnDisplay(id, length) {
+    const newShip = createDOMElement('div', ['ship'], id);
+    while (length > 0) {
+    newShip.appendChild(createDOMElement('div', ['cell']));
+    length--;
+    }
+    return newShip;
+}
+
 const renderCells = (gameboard, domBoard, showShips = true) => {
     const board = gameboard.readBoard();
     while (domBoard.firstChild) domBoard.removeChild(domBoard.lastChild);
@@ -75,8 +84,8 @@ const addToLog = (player, cell, opponent, oppBoard, shipSunk, domLog) => {
 const changeMarquee = (textContent, domNode) => {
     const node = domNode;
     node.textContent = textContent;
-    node.style.fontSize = '26px'
+    node.style.fontSize = '22px'
     return node;
 }
 
-module.exports = { createDOMElement, renderBoard, renderCells, addToLog, changeMarquee }
+module.exports = { createDOMElement, renderBoard, renderCells, addToLog, changeMarquee, createShip }
