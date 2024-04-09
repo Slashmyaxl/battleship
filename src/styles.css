@@ -11,7 +11,7 @@
 }
 
 .container {
-    background: linear-gradient(178deg, hsl(46, 50%, 75%), hsl(36, 46%, 68%) 12%, hsl(36, 40%, 43%) 95%);
+    background: linear-gradient(178deg, hsl(46, 50%, 75%), hsl(36, 44%, 64%) 12%, hsl(36, 40%, 43%) 108%);
     background-repeat: no-repeat;
     margin: 0 auto;
     min-height: 100vh;
@@ -45,8 +45,8 @@ h1 {
 }
 
 .button#start {
-    padding: 4px 6px;
-    border-radius: 6px;
+    padding: 5px 8px;
+    border-radius: 10px;
     box-shadow: 1px 1px 4px #888;
     font-weight: bold;
     background: #fff;
