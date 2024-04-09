@@ -1,12 +1,13 @@
 const Ship = require('./ship');
 const Display = require('./display');
+const { cols } = require('./conversions');
 
 const allShips = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer'];
 let placementPhase = true;
 function startPlacementPhase () { placementPhase = true }
 const placementPhaseOver = () => !placementPhase
 
-function placeShips (board) {
+function placeAllShips (board) {
   const ships = document.querySelectorAll('.ship')
   ships.forEach(ship => {
     ship.onmousedown = function(event) {
@@ -55,12 +56,14 @@ function placeShips (board) {
   });
 }
 
-function placeRandomShips (board) {
-    board.placeShip(Ship(allShips[0]), 'A', 2);
-    board.placeShip(Ship(allShips[1]), 'B', 10);
-    board.placeShip(Ship(allShips[2]), 'J', 1, 'vertical');
-    board.placeShip(Ship(allShips[3]), 'E', 5, 'vertical');
-    board.placeShip(Ship(allShips[4]), 'H', 1, 'vertical');
-  }
+function placeRandomShips (board, index = 0) {
+  if (index >= allShips.length) return;
+  const orientation = ['horizonal', 'vertical'][Math.floor(Math.random() * 2)];
+  const col = cols[Math.floor(Math.random() * 10)];
+  const row = Math.floor(Math.random() * 10) + 1;
+  const placedShip = board.placeShip(Ship(allShips[index]), col, row, orientation);
+  if (placedShip === true) placeRandomShips(board, ++index);
+  else placeRandomShips(board, index)
+}
 
-module.exports = { placeShips, placeRandomShips, startPlacementPhase, placementPhaseOver };
+module.exports = { placeAllShips, placeRandomShips, startPlacementPhase, placementPhaseOver };

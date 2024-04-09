@@ -1,5 +1,5 @@
 const Player = require('./player');
-const { placeShips, placeRandomShips, startPlacementPhase, placementPhaseOver } = require('./ship-placement')
+const { startPlacementPhase, placementPhaseOver } = require('./ship-placement')
 const Display = require('./display');
 const Gameboard = require('./gameboard');
 
@@ -12,8 +12,8 @@ function Game() {
   let currentPlayer = player1;
   startPlacementPhase();
   const p2DisplayBoard = document.getElementById('p2');
-  placeShips(p1Board)
-  placeRandomShips(p2Board);
+  player1.placeShips(p1Board)
+  player2.placeShips(p2Board, 'random');
   Display.p2UpdateBoard(p2Board);
 
   function isGameOver() {

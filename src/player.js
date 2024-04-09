@@ -1,4 +1,5 @@
 const { isOccupied } = require('./helpers');
+const { placeAllShips, placeRandomShips } = require('./ship-placement')
 const { cols } = require('./conversions');
 
 function Player(name, computer = false) {
@@ -15,9 +16,14 @@ function Player(name, computer = false) {
         const chosenCell = attackableCells[Math.floor(Math.random() * attackableCells.length)]
 
         return chosenCell;
-    }
+    };
 
-    return { getName, getPossessive, isComputer, randomAttack }
+    const placeShips = (board, random = false) => {
+        if (!random) placeAllShips(board);
+        else placeRandomShips(board);
+    };
+
+    return { getName, getPossessive, isComputer, randomAttack, placeShips }
 }
 
 module.exports = Player
