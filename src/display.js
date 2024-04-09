@@ -30,7 +30,8 @@ const Display = {
     startGame () {
         this.renderBoards();
         this.renderShips();
-        marquee.textContent = 'Place your ships (press R to rotate).'
+        marquee.textContent = 'Place your ships by dragging them onto your board (press R to rotate).'
+        marquee.style.fontSize = '20px';
     },
 
     renderShips() {
@@ -48,13 +49,13 @@ const Display = {
     p1UpdateBoard (board) { renderCells(board, p1Board) },
     p2UpdateBoard (board) { renderCells(board, p2Board, false) },
     updateDisplay (player, cell, opponent, oppBoard, shipSunk) {
-        changeMarquee(`${opponent.getPossessive()} turn`, marquee);
+        this.updateMarquee(`${opponent.getPossessive()} turn`, 26);
         setTimeout(() => {
             addToLog(player, cell, opponent, oppBoard, shipSunk, gamelog);
         }, 100);  
     },
-    updateMarquee (text) {
-        changeMarquee(text, marquee);
+    updateMarquee (text, size) {
+        changeMarquee(text, marquee, size);
     },
     gameOver(winner) { marquee.textContent = `Winner: ${winner.getName()}` }
 }

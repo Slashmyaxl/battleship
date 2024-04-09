@@ -27,9 +27,13 @@ const createShip = function createShipOnDisplay(id, length) {
     const newShip = createDOMElement('div', ['ship'], id);
     newShip.style.cursor = "move"
     newShip.style.display = "flex"
+    let n = 0
     while (length > 0) {
-    newShip.appendChild(createDOMElement('div', ['cell']));
-    length--;
+      const newCell = createDOMElement('div', ['cell']);
+      if (n < 3) newCell.textContent = id.toString().substring(n, n + 1).toUpperCase();
+      newShip.appendChild(newCell)
+      length--;
+      n++;
     }
     return newShip;
 }
@@ -44,7 +48,7 @@ const renderCells = (gameboard, domBoard, showShips = true) => {
         newCell.dataset.column = cols[index];
         newCell.dataset.row = board.indexOf(boardRow) + 1;
         if (isOccupied(cell)) {
-            if (showShips) newCell.style.backgroundColor = '#777';
+            if (showShips) newCell.style.backgroundColor = '#888';
         }
         if (cell === 'X') {
             const newMarker = createDOMElement('div', ['marker']);
@@ -86,10 +90,17 @@ const addToLog = (player, cell, opponent, oppBoard, shipSunk, domLog) => {
     }
 }
 
-const changeMarquee = (textContent, domNode) => {
+const changeMarquee = (textContent, domNode, size) => {
+    const message = textContent.toString();
     const node = domNode;
-    node.textContent = textContent;
-    node.style.fontSize = '22px'
+    if (message.includes('Error')) {
+        node.style.color = 'orangered'
+        node.textContent = message + ' Try again.';
+    } else {
+        node.textContent = message;
+        node.style.color = '#333';
+    }
+    node.style.fontSize = `${size}px`;
     return node;
 }
 
