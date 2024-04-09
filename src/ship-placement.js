@@ -45,8 +45,14 @@ function placeAllShips (board) {
         ship.style.display = "none";
         const elemBelow = document.elementFromPoint(event.clientX, event.clientY);
         ship.style.display = "flex";
-        document.removeEventListener('mousemove', onMouseMove)
-        if(!elemBelow.classList.contains('droppable')) return;        
+        document.removeEventListener('mousemove', onMouseMove);
+        if(!elemBelow.classList.contains('droppable')) {
+          console.log(!elemBelow.classList.contains('droppable'))
+          ship.style.position = 'static';
+          ship.classList.remove('rotated');
+          window.removeEventListener('keydown', rotateShip);
+          return      
+        }
         const placedShip = board.placeShip(Ship(ship.id), elemBelow.dataset.column, elemBelow.dataset.row, orientation);
         if (placedShip === true) {
           Display.p1UpdateBoard(board);
