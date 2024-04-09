@@ -1,5 +1,5 @@
-const { row, column } = require('./conversions');
-const { checkCollisions, isOccupied } = require ('./helpers')
+const { row, column } = require("./conversions");
+const { checkCollisions, isOccupied } = require("./helpers");
 
 const Gameboard = () => {
   const board = [];
@@ -12,29 +12,29 @@ const Gameboard = () => {
       board.push(newRow);
     }
   })();
-  
+
   const readBoard = () => board;
   const allShips = [];
   const getAllShips = () => allShips;
 
-  function allShipsSunk () {
+  function allShipsSunk() {
     if (allShips.length < 5) return false;
-    return allShips.filter(ship => ship.isSunk()).length === 5; 
+    return allShips.filter((ship) => ship.isSunk()).length === 5;
   }
 
   function placeShip(shipObj, x, y, orientation) {
-    if (allShips.length > 4) throw new Error ('Ship limit exceeded.')
+    if (allShips.length > 4) throw new Error("Ship limit exceeded.");
     let colIndex = column(x);
     let rowIndex = row(y);
-   
+
     try {
-      (checkCollisions(board, x, y, orientation, shipObj))
+      checkCollisions(board, x, y, orientation, shipObj);
     } catch (error) {
       return error;
     }
-   
+
     allShips.push(shipObj);
-    if(orientation === 'vertical') {
+    if (orientation === "vertical") {
       for (let i = 1; i <= shipObj.getShipLength(); i++) {
         board[rowIndex][colIndex] = shipObj;
         rowIndex++;
@@ -51,13 +51,14 @@ const Gameboard = () => {
   function receiveAttack(x, y) {
     let sunkShip = null;
     const attackedCell = board[row(y)][column(x)];
-    if (attackedCell === "X" || attackedCell === "O") throw new Error('Cell already hit!')
+    if (attackedCell === "X" || attackedCell === "O")
+      throw new Error("Cell already hit!");
     else if (isOccupied(attackedCell)) {
       attackedCell.hit();
-      if (attackedCell.isSunk()) sunkShip = attackedCell.name
+      if (attackedCell.isSunk()) sunkShip = attackedCell.name;
       board[row(y)][column(x)] = "X";
     } else board[row(y)][column(x)] = "O";
-    
+
     return { cell: [x, y], sunkShip };
   }
 
