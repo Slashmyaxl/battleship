@@ -7,8 +7,10 @@
 :root {
     background: #222;
     font-size: 18px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Notable&display=swap');
 
 .container {
     background: linear-gradient(178deg, hsl(46, 50%, 75%), hsl(36, 44%, 64%) 12%, hsl(36, 40%, 43%) 108%);
@@ -23,9 +25,12 @@
 }
 
 h1 {
-    letter-spacing: 0.1rem;
+    font-family: "Notable";
+    font-size: 3rem;
+    letter-spacing: 0.2rem;
     text-align: center;
     margin-top: 0.5rem;
+    
 }
 
 .marquee {
