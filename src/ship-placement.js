@@ -17,21 +17,29 @@ function placeAllShips (board) {
       ship.style.zIndex = 10;
   
       function moveAt(pageX, pageY) {
-        ship.style.left = pageX - ship.offsetWidth / 7 + 'px';
+        ship.style.left = pageX - 20 + 'px';
         ship.style.top = pageY - ship.offsetHeight / 2 + 'px';
       }
   
       moveAt(event.pageX, event.pageY);
   
-      function onMouseMove(event) {
-        moveAt(event.pageX, event.pageY)
+      function onMouseMove(event2) {
+        moveAt(event2.pageX, event2.pageY)
+      }
+
+      function rotateShip(event3) {
+        if (event3.key === 'r' && orientation !== 'vertical') {
+          orientation = 'vertical';
+          ship.classList.add('rotated')
+        }
+        else {
+          orientation = '';
+          ship.classList.remove('rotated')
+        }
       }
   
       document.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'r' && orientation === 'vertical') orientation = ''
-        else orientation = 'vertical'
-      })
+      window.addEventListener('keydown', rotateShip)
   
       ship.onmouseup = (event) => {
         ship.style.display = "none";
@@ -49,6 +57,9 @@ function placeAllShips (board) {
             Display.updateMarquee("You're up, Admiral! Choose a cell on your opponent's board to attack.", 20)
           }
         } else {
+        ship.style.position = 'static';
+        ship.classList.remove('rotated');
+        window.removeEventListener('keydown', rotateShip)
         Display.updateMarquee(placedShip, 24);
         }
       }

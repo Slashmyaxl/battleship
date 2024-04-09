@@ -53,12 +53,31 @@ h1 {
     border: 1px solid black;
 }
 
+.button#start:active {
+  transform: translateX(1px) translateY(1px); 
+  box-shadow: 0 0 2px #888;
+}
+
+.button#start:hover {
+  cursor: pointer;
+  background-color: rgb(146, 252, 155);
+}
+
 .ship-container {
     width: min(500px, 98%);
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 0.6rem;
+}
+
+.ship:hover {
+    transform: translate(-1px, -2px);
+}
+
+.rotated {
+    transform-origin: 20px 20px;
+    transform: rotate(90deg);
 }
 
 .boards-container {
@@ -112,7 +131,7 @@ h1 {
     align-items: center;
 }
 
-.ship .cell {
+.ship > .cell {
     background-color: #888;;
     color: #fefefe;
     font-weight: bold;
@@ -159,7 +178,7 @@ h1 {
 }
 
 .log-span {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .log-line-sunk {
