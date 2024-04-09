@@ -13,8 +13,9 @@ function createDOMElement (element, classes, id) {
 const renderBoard = (id) => {
     const board = Gameboard().readBoard();
     const domBoard = createDOMElement('div', ['board'], id);
+    let newCell
     board.forEach(boardRow => boardRow.forEach((cell, index) => {
-        const newCell = createDOMElement('div', ['cell'])
+        if (id === 'p1') newCell = createDOMElement('div', ['cell', 'droppable']);else newCell = createDOMElement('div', ['cell']);
         newCell.dataset.column = cols[index];
         newCell.dataset.row = board.indexOf(boardRow) + 1;
         domBoard.appendChild(newCell);
@@ -24,6 +25,8 @@ const renderBoard = (id) => {
 
 const createShip = function createShipOnDisplay(id, length) {
     const newShip = createDOMElement('div', ['ship'], id);
+    newShip.style.cursor = "move"
+    newShip.style.display = "flex"
     while (length > 0) {
     newShip.appendChild(createDOMElement('div', ['cell']));
     length--;
@@ -33,13 +36,15 @@ const createShip = function createShipOnDisplay(id, length) {
 
 const renderCells = (gameboard, domBoard, showShips = true) => {
     const board = gameboard.readBoard();
+    let newCell;
     while (domBoard.firstChild) domBoard.removeChild(domBoard.lastChild);
     board.forEach(boardRow => boardRow.forEach((cell, index) => {
-        const newCell = createDOMElement('div', ['cell'])
+        if (domBoard.id === 'p2') newCell = createDOMElement('div', ['cell']);
+        else newCell = createDOMElement('div', ['cell', 'droppable']);
         newCell.dataset.column = cols[index];
         newCell.dataset.row = board.indexOf(boardRow) + 1;
         if (isOccupied(cell)) {
-            if (showShips) newCell.style.backgroundColor = '#666';
+            if (showShips) newCell.style.backgroundColor = '#777';
         }
         if (cell === 'X') {
             const newMarker = createDOMElement('div', ['marker']);

@@ -11,7 +11,8 @@
 }
 
 .container {
-    background: hsl(36, 55%, 70%);
+    background: linear-gradient(178deg, hsl(46, 50%, 75%), hsl(36, 46%, 68%) 12%, hsl(36, 40%, 43%) 95%);
+    background-repeat: no-repeat;
     margin: 0 auto;
     min-height: 100vh;
     width: clamp(430px, 95%, 1280px);
@@ -60,13 +61,7 @@ h1 {
     gap: 0.35rem;
 }
 
-.ship {
-    display: flex;
-    cursor: move;
-}
-
 .boards-container {
-    background: inherit;
     width: min(98%, 920px);
     display: grid;
     grid-template-columns: repeat(auto-fit, 412px);
@@ -75,11 +70,8 @@ h1 {
     padding: 0.25rem 0.75rem;
 }
 
-.boards-container .cell:hover {
-    background-color: rgba(20, 20, 20, 0.05)
-}
-
 #p2 .cell:hover {
+    background-color: rgba(20, 20, 20, 0.05);
     cursor: pointer;
 }
 
@@ -121,7 +113,7 @@ h1 {
 }
 
 .ship .cell {
-    background-color: #666;
+    background-color: #777;
     outline: none;
 }
 
