@@ -83,7 +83,6 @@ const renderCells = (gameboard, domBoard, showShips = true) => {
 
 const addToLog = (player, cell, opponent, oppBoard, shipSunk, domLog) => {
   const attackedCell = oppBoard.readBoard()[row(cell[1])][column(cell[0])];
-
   const newLine = createDOMElement("p", ["log-line"]);
   newLine.textContent = `${player.getName()} attacked ${cell.join(", ")} ... it's a `;
   const span = createDOMElement("span", ["log-span"]);
@@ -101,7 +100,7 @@ const addToLog = (player, cell, opponent, oppBoard, shipSunk, domLog) => {
     sunkLine.textContent = `${opponent.getPossessive()} ${shipSunk} has been SUNK!`;
     setTimeout(() => {
       domLog.appendChild(sunkLine);
-    }, 150);
+    }, 50);
   }
 };
 

@@ -25,6 +25,7 @@ function Game() {
       const data = e.target.dataset;
       const cellAttacked = p2Board.receiveAttack(data.column, data.row);
       Display.p2UpdateBoard(p2Board);
+      if (isGameOver()) return Display.gameOver(player1, document.getElementById('p1'));
       Display.updateDisplay(
         player1,
         cellAttacked.cell,
@@ -32,7 +33,6 @@ function Game() {
         p2Board,
         cellAttacked.sunkShip,
       );
-      if (isGameOver()) return Display.gameOver(player1);
       currentPlayer = player2;
     } else {
       return null;
@@ -41,6 +41,7 @@ function Game() {
       const choice = player2.randomAttack(p1Board);
       const computerAttack = p1Board.receiveAttack(choice[0], choice[1]);
       Display.p1UpdateBoard(p1Board);
+      if (isGameOver()) return Display.gameOver(player2, document.getElementById('p2'));
       Display.updateDisplay(
         player2,
         computerAttack.cell,
@@ -48,9 +49,8 @@ function Game() {
         p1Board,
         computerAttack.sunkShip,
       );
-      if (isGameOver()) return Display.gameOver(player2);
       currentPlayer = player1;
-    }, 800);
+    }, 700);
   });
 }
 

@@ -4,6 +4,7 @@ const {
   addToLog,
   changeMarquee,
   createShip,
+  createDOMElement,
 } = require("./display-helpers");
 
 const marquee = document.querySelector(".marquee");
@@ -57,7 +58,7 @@ const Display = {
     renderCells(board, p1Board);
   },
   p2UpdateBoard(board) {
-    renderCells(board, p2Board, false);
+    renderCells(board, p2Board);
   },
   updateDisplay(player, cell, opponent, oppBoard, shipSunk) {
     setTimeout(() => {
@@ -69,11 +70,19 @@ const Display = {
     if (!color) color = '#fefefe';
     changeMarquee(text, marquee, size, color);
   },
-  gameOver(winner) {
+  gameOver(winner, displayBoard) {
     let color;
-    if (winner.isComputer()) color = 'rgb(255, 140, 140)'
-    else color = 'rgb(180, 235, 180'
-    changeMarquee(`Winner: ${winner.getName()}`, marquee, 30, color);
+    if (winner.isComputer()) color = 'rgb(255, 140, 140)';
+    else color = 'rgb(180, 235, 180';
+    setTimeout(() => {
+      this.updateMarquee(`Winner: ${winner.getName()}`, 30, color);
+    }, 100)
+    const winText = createDOMElement('p', ['win-text']);
+    winText.textContent = 'WINNER';
+    displayBoard.appendChild(winText);
+    setTimeout(() => {
+      winText.classList.add('enlarge')
+    }, 0)
   },
 };
 
