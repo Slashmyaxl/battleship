@@ -109,11 +109,16 @@ const changeMarquee = (textContent, domNode, size) => {
   const message = textContent.toString();
   const node = domNode;
   if (message.includes("Error")) {
-    node.style.color = "orangered";
+    node.style.backgroundColor = "rgb(255, 130, 130)";
     node.textContent = message + " Try again.";
+  } else if (message.includes("Winner: Computer")) {
+    node.style.backgroundColor = "rgb(255, 120, 120)"
+  } else if (message.includes("Winner: You")) {
+    node.textContent = message;
+    node.style.backgroundColor = "rgb(205, 255, 175)"
   } else {
     node.textContent = message;
-    node.style.color = "#333";
+    node.style.backgroundColor = '#fefefe';
   }
   node.style.fontSize = `${size}px`;
   return node;

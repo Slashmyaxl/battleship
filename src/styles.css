@@ -44,7 +44,7 @@ h1 {
     justify-content: center;
     border-radius: 0.25rem;
     box-shadow: inset 2px 2px 4px #888,
-                inset -2px -2px 2px lightgray;
+                inset -1px -1px 3px lightgray;
     width: 400px;
     height: 4rem;
     font-size: 1.2rem;
@@ -53,7 +53,7 @@ h1 {
 .button#start {
     padding: 5px 8px;
     border-radius: 10px;
-    box-shadow: 1px 1px 4px #888;
+    box-shadow: 2px 2px 4px #777;
     font-weight: bold;
     background: #fff;
     border: 1px solid black;
@@ -61,14 +61,14 @@ h1 {
 
 .button#start:hover {
   cursor: pointer;
-  background-color: rgb(146, 252, 155);
-  transform: translateX(1px) translateY(1px); 
-  box-shadow: 0 0 2px #888;
+  background-color: rgb(176, 245, 112);
+  transform: translate(1px, 1px); 
+  box-shadow: 1px 1px 2px #777;
 }
 
 .button#start:active {
-    box-shadow: inset -1px -1px 4px #666,
-                inset 1px 1px 4px #666;
+    box-shadow: 0px 0px 1px #888;
+    transform: translateX(2px) translateY(2px); 
   }
 
 .ships-container {

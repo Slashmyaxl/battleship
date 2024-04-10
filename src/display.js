@@ -36,9 +36,7 @@ const Display = {
   startGame() {
     this.renderBoards();
     this.renderShips();
-    marquee.textContent =
-      "Place your ships by dragging them onto your board (press R to rotate).";
-    marquee.style.fontSize = "20px";
+    this.updateMarquee("Place your ships by dragging them onto your board (press R to rotate).", 20);
   },
 
   renderShips() {
