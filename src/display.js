@@ -60,16 +60,20 @@ const Display = {
     renderCells(board, p2Board, false);
   },
   updateDisplay(player, cell, opponent, oppBoard, shipSunk) {
-    this.updateMarquee(`${opponent.getPossessive()} turn`, 26);
     setTimeout(() => {
+      this.updateMarquee(`${opponent.getPossessive()} turn`, 28);
       addToLog(player, cell, opponent, oppBoard, shipSunk, gamelog);
-    }, 100);
+    }, 200);
   },
-  updateMarquee(text, size) {
-    changeMarquee(text, marquee, size);
+  updateMarquee(text, size, color) {
+    if (!color) color = '#fefefe';
+    changeMarquee(text, marquee, size, color);
   },
   gameOver(winner) {
-    marquee.textContent = `Winner: ${winner.getName()}`;
+    let color;
+    if (winner.isComputer()) color = 'rgb(255, 140, 140)'
+    else color = 'rgb(180, 235, 180'
+    changeMarquee(`Winner: ${winner.getName()}`, marquee, 30, color);
   },
 };
 

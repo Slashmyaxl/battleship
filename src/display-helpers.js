@@ -105,21 +105,12 @@ const addToLog = (player, cell, opponent, oppBoard, shipSunk, domLog) => {
   }
 };
 
-const changeMarquee = (textContent, domNode, size) => {
+const changeMarquee = (textContent, domNode, size, color) => {
   const message = textContent.toString();
   const node = domNode;
-  if (message.includes("Error")) {
-    node.style.backgroundColor = "rgb(255, 130, 130)";
-    node.textContent = message + " Try again.";
-  } else if (message.includes("Winner: Computer")) {
-    node.style.backgroundColor = "rgb(255, 120, 120)"
-  } else if (message.includes("Winner: You")) {
-    node.textContent = message;
-    node.style.backgroundColor = "rgb(205, 255, 175)"
-  } else {
-    node.textContent = message;
-    node.style.backgroundColor = '#fefefe';
-  }
+  if (message.includes("Error")) node.textContent = message + " Try again"
+  else node.textContent = message;
+  node.style.backgroundColor = color;
   node.style.fontSize = `${size}px`;
   return node;
 };

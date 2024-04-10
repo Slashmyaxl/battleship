@@ -50,7 +50,7 @@ function Game() {
       );
       if (isGameOver()) return Display.gameOver(player2);
       currentPlayer = player1;
-    }, 500);
+    }, 800);
   });
 }
 

@@ -16,14 +16,13 @@ function placeAllShips(board) {
   const ships = document.querySelectorAll(".ship");
   const placedShips = [];
   ships.forEach((ship) => {
-    ship.onmouseover = shiftShip;
-    ship.onmouseout = () => {
-      ship.style.transform = '';
-    }
-
     function shiftShip() {
       ship.style.transform = 'translate(-1px, -2px)';
     }
+
+    ship.onmouseover = shiftShip;
+    ship.onmouseout = () => ship.style.transform = '';
+
     ship.onmousedown = function (event) {
       const shipContainer = document.querySelector(`#${ship.id}-container`);
       let orientation = "";
@@ -84,21 +83,21 @@ function placeAllShips(board) {
           shipContainer.removeChild(ship);
           Display.updateMarquee(
             "Place your ships by dragging them onto your board (press R to rotate).",
-            20,
+            20
           );
           if (placedShips.length === allShips.length) {
             shipsContainer.style.display = 'none';
             placementPhase = false;
             Display.updateMarquee(
               "You're up, Admiral! Choose a cell on your opponent's board to attack.",
-              20,
+              20
             );
           }
         } else {
           ship.style.position = "static";
           ship.classList.remove("rotated");
           window.removeEventListener("keydown", rotateShip);
-          Display.updateMarquee(placedShip, 24);
+          Display.updateMarquee(placedShip, 24, 'rgb(255, 140, 140)');
           ship.onmouseover = shiftShip;
         }
       };
