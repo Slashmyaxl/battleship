@@ -47,8 +47,8 @@ const Display = {
     setTimeout(() => {
       startText.classList.add('enlarge-fade');
       setTimeout(() => {
-        p2Board.removeChild(startText);
-      }, 2500)
+        startText.style.display = 'none';
+      }, 2200)
     }, 0);
   },
 

@@ -11,6 +11,7 @@ function Game() {
   const p2Board = Gameboard();
   let currentPlayer = player1;
   startPlacementPhase();
+  const p1DisplayBoard = document.getElementById("p1");
   const p2DisplayBoard = document.getElementById("p2");
   player1.placeShips(p1Board);
   player2.placeShips(p2Board, "random");
@@ -25,32 +26,34 @@ function Game() {
       const data = e.target.dataset;
       const cellAttacked = p2Board.receiveAttack(data.column, data.row);
       Display.p2UpdateBoard(p2Board);
-      if (isGameOver()) return Display.gameOver(player1, document.getElementById('p1'));
+      if (isGameOver()) return Display.gameOver(player1, p1DisplayBoard);
       Display.updateDisplay(
         player1,
         cellAttacked.cell,
         player2,
         p2Board,
         cellAttacked.sunkShip,
+        p2DisplayBoard
       );
       currentPlayer = player2;
     } else {
       return null;
     }
+    const choice = player2.randomAttack(p1Board);
+    const computerAttack = p1Board.receiveAttack(choice[0], choice[1]);
     setTimeout(() => {
-      const choice = player2.randomAttack(p1Board);
-      const computerAttack = p1Board.receiveAttack(choice[0], choice[1]);
       Display.p1UpdateBoard(p1Board);
-      if (isGameOver()) return Display.gameOver(player2, document.getElementById('p2'));
+      if (isGameOver()) return Display.gameOver(player2, p2DisplayBoard);
       Display.updateDisplay(
         player2,
         computerAttack.cell,
         player1,
         p1Board,
         computerAttack.sunkShip,
+        p1DisplayBoard
       );
       currentPlayer = player1;
-    }, 700);
+    }, 600);
   });
 }
 
