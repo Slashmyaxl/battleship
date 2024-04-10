@@ -29,6 +29,7 @@ function placeAllShips(board) {
       let orientation = "";
       ship.style.transform = '';
       ship.onmouseover = null;
+      ship.style.cursor = 'grabbing';
       ship.style.position = "absolute";
       ship.style.zIndex = 10;
 
@@ -80,7 +81,6 @@ function placeAllShips(board) {
         if (placedShip === true) {
           Display.p1UpdateBoard(board);
           placedShips.push(ship.id);
-          console.log(placedShips)
           shipContainer.removeChild(ship);
           Display.updateMarquee(
             "Place your ships by dragging them onto your board (press R to rotate).",

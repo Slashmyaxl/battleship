@@ -31,7 +31,7 @@ const createShip = function createShipOnDisplay(id, length) {
   shipContainer.style.height = '42px';
   shipContainer.style.width = length * 40 + 'px';
   const newShip = createDOMElement("div", ["ship"], id);
-  newShip.style.cursor = "move";
+  newShip.style.cursor = "grab";
   newShip.style.display = "flex";
   let n = 0;
   while (length > 0) {
