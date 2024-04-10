@@ -12,7 +12,7 @@ const p2Container = document.getElementById("p2Container");
 const p1Header = document.getElementById("p1Header");
 const p2Header = document.getElementById("p2Header");
 const gamelog = document.querySelector(".log");
-const shipContainer = document.querySelector(".ship-container");
+const shipsContainer = document.querySelector(".ships-container");
 let p1Board;
 let p2Board;
 
@@ -49,9 +49,10 @@ const Display = {
       createShip("Submarine", 3),
       createShip("Destroyer", 2),
     ];
-    while (shipContainer.firstChild)
-      shipContainer.removeChild(shipContainer.lastChild);
-    ships.forEach((ship) => shipContainer.appendChild(ship));
+    while (shipsContainer.firstChild)
+      shipsContainer.removeChild(shipsContainer.lastChild);
+    shipsContainer.style.display = 'flex';
+    ships.forEach((ship) => shipsContainer.appendChild(ship));
   },
 
   p1UpdateBoard(board) {

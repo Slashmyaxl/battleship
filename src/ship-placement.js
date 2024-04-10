@@ -12,11 +12,23 @@ function startPlacementPhase() {
 const placementPhaseOver = () => !placementPhase;
 
 function placeAllShips(board) {
+  const shipsContainer = document.querySelector('.ships-container');
   const ships = document.querySelectorAll(".ship");
+  const placedShips = [];
   ships.forEach((ship) => {
+    ship.onmouseover = shiftShip;
+    ship.onmouseout = () => {
+      ship.style.transform = '';
+    }
+
+    function shiftShip() {
+      ship.style.transform = 'translate(-1px, -2px)';
+    }
     ship.onmousedown = function (event) {
-      const shipContainer = document.querySelector(".ship-container");
+      const shipContainer = document.querySelector(`#${ship.id}-container`);
       let orientation = "";
+      ship.style.transform = '';
+      ship.onmouseover = null;
       ship.style.position = "absolute";
       ship.style.zIndex = 10;
 
@@ -55,6 +67,7 @@ function placeAllShips(board) {
         if (!elemBelow.classList.contains("droppable")) {
           ship.style.position = "static";
           ship.classList.remove("rotated");
+          ship.onmouseover = shiftShip;
           window.removeEventListener("keydown", rotateShip);
           return;
         }
@@ -66,12 +79,15 @@ function placeAllShips(board) {
         );
         if (placedShip === true) {
           Display.p1UpdateBoard(board);
+          placedShips.push(ship.id);
+          console.log(placedShips)
           shipContainer.removeChild(ship);
           Display.updateMarquee(
             "Place your ships by dragging them onto your board (press R to rotate).",
             20,
           );
-          if (!shipContainer.hasChildNodes()) {
+          if (placedShips.length === allShips.length) {
+            shipsContainer.style.display = 'none';
             placementPhase = false;
             Display.updateMarquee(
               "You're up, Admiral! Choose a cell on your opponent's board to attack.",
@@ -83,6 +99,7 @@ function placeAllShips(board) {
           ship.classList.remove("rotated");
           window.removeEventListener("keydown", rotateShip);
           Display.updateMarquee(placedShip, 24);
+          ship.onmouseover = shiftShip;
         }
       };
     };

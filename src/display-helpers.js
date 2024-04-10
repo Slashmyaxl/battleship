@@ -27,6 +27,9 @@ const renderBoard = (id) => {
 };
 
 const createShip = function createShipOnDisplay(id, length) {
+  const shipContainer = createDOMElement('div', ["ship-container"], `${id}-container`);
+  shipContainer.style.height = '42px';
+  shipContainer.style.width = length * 40 + 'px';
   const newShip = createDOMElement("div", ["ship"], id);
   newShip.style.cursor = "move";
   newShip.style.display = "flex";
@@ -42,7 +45,8 @@ const createShip = function createShipOnDisplay(id, length) {
     length--;
     n++;
   }
-  return newShip;
+  shipContainer.appendChild(newShip)
+  return shipContainer;
 };
 
 const renderCells = (gameboard, domBoard, showShips = true) => {
@@ -94,7 +98,7 @@ const addToLog = (player, cell, opponent, oppBoard, shipSunk, domLog) => {
   domLog.appendChild(newLine);
   if (shipSunk) {
     const sunkLine = createDOMElement("p", ["log-line-sunk"]);
-    sunkLine.textContent = `${opponent.getPossessive()} ${shipSunk} has been sunk!`;
+    sunkLine.textContent = `${opponent.getPossessive()} ${shipSunk} has been SUNK!`;
     setTimeout(() => {
       domLog.appendChild(sunkLine);
     }, 150);
