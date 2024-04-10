@@ -92,6 +92,7 @@ function placeAllShips(board) {
               "You're up, Admiral! Choose a cell on your opponent's board to attack.",
               20
             );
+            Display.playGame();
           }
         } else {
           ship.style.position = "static";

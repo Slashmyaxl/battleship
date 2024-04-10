@@ -58,7 +58,7 @@ h1 {
     box-shadow: 2px 2px 4px #777;
     font-size: 0.9rem;
     font-weight: bold;
-    background-color: hsl(120, 70%, 70%);
+    background-color: hsl(120, 70%, 80%);
     border: 1px solid #555;
 }
 
@@ -157,6 +157,17 @@ h1 {
     box-shadow: 0px 1px 4px #333;
 }
 
+.start-text {
+    position: absolute;
+    left: 46.5%;
+    top: 18%;
+    font-size: 0.18rem;
+    font-family: 'Anton';
+    opacity: 0.9;
+    letter-spacing: 0rem;
+    color: rgb(255, 245, 30);
+}
+
 .win-text {
     position: absolute;
     left: 48%;
@@ -170,6 +181,13 @@ h1 {
 .enlarge {
     scale: 18;
     transition: scale 600ms cubic-bezier(0.8, 0, 1, 0.3) 100ms;
+}
+
+.enlarge-fade {
+    opacity: 0.05;
+    scale: 18.5;
+    transition: scale 800ms ease-in-out 50ms,
+                opacity 1000ms 1200ms;
 }
 
 .log-container {

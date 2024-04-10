@@ -40,6 +40,18 @@ const Display = {
     this.updateMarquee("Place your ships by dragging them onto your board (press R to rotate).", 20);
   },
 
+  playGame() {
+    const startText = createDOMElement('p', ['start-text']);
+    startText.textContent = 'Enemy ships sighted!';
+    p2Board.appendChild(startText);
+    setTimeout(() => {
+      startText.classList.add('enlarge-fade');
+      setTimeout(() => {
+        p2Board.removeChild(startText);
+      }, 2500)
+    }, 0);
+  },
+
   renderShips() {
     const ships = [
       createShip("Carrier", 5),
