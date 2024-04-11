@@ -2,6 +2,7 @@ const Player = require("./player");
 const { startPlacementPhase, placementPhaseOver } = require("./ship-placement");
 const Display = require("./display");
 const Gameboard = require("./gameboard");
+const { delay } = require("./helpers")
 
 function Game() {
   Display.startGame();
@@ -21,12 +22,11 @@ function Game() {
     return p2Board.allShipsSunk() || p1Board.allShipsSunk();
   }
 
-  p2DisplayBoard.addEventListener("click", (e) => {
+  p2DisplayBoard.addEventListener("click", async(e) => {
     if (placementPhaseOver() && currentPlayer === player1 && !isGameOver()) {
       const data = e.target.dataset;
       const cellAttacked = p2Board.receiveAttack(data.column, data.row);
       Display.p2UpdateBoard(p2Board);
-      if (isGameOver()) return Display.gameOver(player1, p1DisplayBoard);
       Display.updateDisplay(
         player1,
         cellAttacked.cell,
@@ -35,25 +35,36 @@ function Game() {
         cellAttacked.sunkShip,
         p2DisplayBoard
       );
+      if (isGameOver()) return Display.gameOver(player1, p1DisplayBoard);
       currentPlayer = player2;
     } else {
       return null;
     }
-    const choice = player2.randomAttack(p1Board);
-    const computerAttack = p1Board.receiveAttack(choice[0], choice[1]);
-    setTimeout(() => {
-      Display.p1UpdateBoard(p1Board);
-      if (isGameOver()) return Display.gameOver(player2, p2DisplayBoard);
-      Display.updateDisplay(
-        player2,
-        computerAttack.cell,
-        player1,
-        p1Board,
-        computerAttack.sunkShip,
-        p1DisplayBoard
-      );
+
+    let computerAttack = null;
+    const cpuMove = delay(400).then(() => {
+      const choice = player2.randomAttack(p1Board);
+      computerAttack = p1Board.receiveAttack(choice[0], choice[1]);
+    })
+    await cpuMove
+    Display.p1UpdateBoard(p1Board);
+    Display.updateDisplay(
+      player2,
+      computerAttack.cell,
+      player1,
+      p1Board,
+      computerAttack.sunkShip,
+      p1DisplayBoard
+    );
+    
+    delay(600).then(() => {
+      console.log('checking and switching')
+      if (!isGameOver()) {
+        delay(600).then(() => Display.gameOver(player2, p2DisplayBoard));
+        return;
+      }
       currentPlayer = player1;
-    }, 600);
+    });
   });
 }
 

@@ -100,7 +100,7 @@ const addToLog = (player, cell, opponent, oppBoard, shipSunk, domLog) => {
     sunkLine.textContent = `${opponent.getPossessive()} ${shipSunk} has been SUNK!`;
     setTimeout(() => {
       domLog.appendChild(sunkLine);
-    }, 50);
+    }, 150);
   }
 };
 

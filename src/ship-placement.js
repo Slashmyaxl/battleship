@@ -12,13 +12,31 @@ function startPlacementPhase() {
 const placementPhaseOver = () => !placementPhase;
 
 function placeAllShips(board) {
+  const randomizer = document.querySelector('.randomize');
   const shipsContainer = document.querySelector('.ships-container');
   const ships = document.querySelectorAll(".ship");
   const placedShips = [];
+
+  function beginGame() {
+    shipsContainer.style.display = 'none';
+    placementPhase = false;
+    Display.updateMarquee(
+      "You're up, Admiral! Choose a cell on your opponent's board to attack.",
+      20
+    );
+    Display.playGame();
+  }  
+
+  randomizer.addEventListener('click', () => {
+    placeRandomShips(board, placedShips.length);
+    Display.p1UpdateBoard(board);
+    beginGame();
+  });
+
   ships.forEach((ship) => {
     function shiftShip() {
       ship.style.transform = 'translate(-1px, -2px)';
-    }
+    }{}
 
     ship.onmouseover = shiftShip;
     ship.onmouseout = () => ship.style.transform = '';
@@ -86,13 +104,7 @@ function placeAllShips(board) {
             20
           );
           if (placedShips.length === allShips.length) {
-            shipsContainer.style.display = 'none';
-            placementPhase = false;
-            Display.updateMarquee(
-              "You're up, Admiral! Choose a cell on your opponent's board to attack.",
-              20
-            );
-            Display.playGame();
+            beginGame();
           }
         } else {
           ship.style.position = "static";

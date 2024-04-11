@@ -33,4 +33,10 @@ const checkCollisions = function checkForShipPlacementCollisions(
   return Error;
 };
 
-module.exports = { checkCollisions, isOccupied };
+function delay(ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  })
+}
+
+module.exports = { checkCollisions, isOccupied, delay };

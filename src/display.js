@@ -6,6 +6,7 @@ const {
   createShip,
   createDOMElement,
 } = require("./display-helpers");
+const { delay } = require("./helpers")
 
 const marquee = document.querySelector(".marquee");
 const p1Container = document.getElementById("p1Container");
@@ -64,6 +65,9 @@ const Display = {
       shipsContainer.removeChild(shipsContainer.lastChild);
     shipsContainer.style.display = 'flex';
     ships.forEach((ship) => shipsContainer.appendChild(ship));
+    const randomizer = createDOMElement('button', ['randomize']);
+    randomizer.textContent = 'Random';
+    shipsContainer.appendChild(randomizer)
   },
 
   p1UpdateBoard(board) {
@@ -72,29 +76,43 @@ const Display = {
   p2UpdateBoard(board) {
     renderCells(board, p2Board);
   },
-  updateDisplay(player, cell, opponent, oppBoard, shipSunk) {
-    setTimeout(() => {
-      this.updateMarquee(`${opponent.getPossessive()} turn`, 28);
-      addToLog(player, cell, opponent, oppBoard, shipSunk, gamelog);
-    }, 200);
+  updateDisplay(player, cell, opponent, oppBoard, shipSunk, displayBoard) {
+    if (shipSunk) {
+      console.log('sunk?: ' + shipSunk)
+      const sunken = createDOMElement('p', ['sunken']);
+      sunken.textContent = `Ship SUNK!`
+      displayBoard.appendChild(sunken);
+      console.log(sunken.classList + ' created')
+      delay(0).then(() => {
+        console.log('fading');
+        sunken.classList.add('upshift-fade')
+      });
+      delay(600).then(() => {
+        console.log('removing')
+        sunken.style.display = 'none';
+      })
+    }
+    this.updateMarquee(`${opponent.getPossessive()} turn`, 28);
+    this.updateLog(player, cell, opponent, oppBoard, shipSunk);
   },
   updateMarquee(text, size, color) {
     if (!color) color = '#fefefe';
     changeMarquee(text, marquee, size, color);
   },
+  updateLog(player, cell, opponent, oppBoard, shipSunk) {
+    addToLog(player, cell, opponent, oppBoard, shipSunk, gamelog);
+  },
   gameOver(winner, displayBoard) {
     let color;
     if (winner.isComputer()) color = 'rgb(255, 140, 140)';
     else color = 'rgb(180, 235, 180';
-    setTimeout(() => {
-      this.updateMarquee(`Winner: ${winner.getName()}`, 30, color);
-    }, 100)
+    this.updateMarquee(`Winner: ${winner.getName()}`, 30, color);
     const winText = createDOMElement('p', ['win-text']);
     winText.textContent = 'WINNER';
     displayBoard.appendChild(winText);
-    setTimeout(() => {
+    delay(0).then(() => {
       winText.classList.add('enlarge')
-    }, 0)
+    })
   },
 };
 
