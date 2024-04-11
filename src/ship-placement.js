@@ -15,7 +15,7 @@ function placeAllShips(board) {
   const randomizer = document.querySelector('.randomize');
   const shipsContainer = document.querySelector('.ships-container');
   const ships = document.querySelectorAll(".ship");
-  const placedShips = [];
+  const unplacedShips = [...allShips];
 
   function beginGame() {
     shipsContainer.style.display = 'none';
@@ -28,15 +28,16 @@ function placeAllShips(board) {
   }  
 
   randomizer.addEventListener('click', () => {
-    placeRandomShips(board, placedShips.length);
+    placeRandomShips(board, unplacedShips);
     Display.p1UpdateBoard(board);
     beginGame();
+
   });
 
   ships.forEach((ship) => {
     function shiftShip() {
       ship.style.transform = 'translate(-1px, -2px)';
-    }{}
+    }
 
     ship.onmouseover = shiftShip;
     ship.onmouseout = () => ship.style.transform = '';
@@ -97,13 +98,13 @@ function placeAllShips(board) {
         );
         if (placedShip === true) {
           Display.p1UpdateBoard(board);
-          placedShips.push(ship.id);
+          unplacedShips.splice(unplacedShips.indexOf(ship.id), 1)
           shipContainer.removeChild(ship);
           Display.updateMarquee(
             "Place your ships by dragging them onto your board (press R to rotate).",
             20
           );
-          if (placedShips.length === allShips.length) {
+          if (!unplacedShips.length) {
             beginGame();
           }
         } else {
@@ -118,19 +119,22 @@ function placeAllShips(board) {
   });
 }
 
-function placeRandomShips(board, index = 0) {
-  if (index >= allShips.length) return;
+function placeRandomShips(board, shipsToPlace = [...allShips]) {
+  if (!shipsToPlace.length) return;
   const orientation = ["horizonal", "vertical"][Math.floor(Math.random() * 2)];
   const col = cols[Math.floor(Math.random() * 10)];
   const row = Math.floor(Math.random() * 10) + 1;
   const placedShip = board.placeShip(
-    Ship(allShips[index]),
+    Ship(shipsToPlace[0]),
     col,
     row,
     orientation,
   );
-  if (placedShip === true) placeRandomShips(board, ++index);
-  else placeRandomShips(board, index);
+  if (placedShip === true) {
+    shipsToPlace.shift();
+    placeRandomShips(board, shipsToPlace);
+  }
+  else placeRandomShips(board, shipsToPlace);
 }
 
 module.exports = {

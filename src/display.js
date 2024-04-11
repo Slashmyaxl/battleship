@@ -74,26 +74,26 @@ const Display = {
     renderCells(board, p1Board);
   },
   p2UpdateBoard(board) {
-    renderCells(board, p2Board);
+    renderCells(board, p2Board, false);
   },
-  updateDisplay(player, cell, opponent, oppBoard, shipSunk, displayBoard) {
+  async updateDisplay(player, cell, opponent, oppBoard, shipSunk, displayBoard) {
+    let delayTime = 0;
+    this.updateMarquee(`${opponent.getPossessive()} turn`, 28);
+    this.updateLog(player, cell, opponent, oppBoard, shipSunk);
+
+    if (player.isComputer()) delayTime = 1;
     if (shipSunk) {
-      console.log('sunk?: ' + shipSunk)
       const sunken = createDOMElement('p', ['sunken']);
       sunken.textContent = `Ship SUNK!`
       displayBoard.appendChild(sunken);
-      console.log(sunken.classList + ' created')
-      delay(0).then(() => {
-        console.log('fading');
+      const sunkAnimate = delay(delayTime).then(() => {
         sunken.classList.add('upshift-fade')
-      });
+      })
+      await sunkAnimate;
       delay(600).then(() => {
-        console.log('removing')
         sunken.style.display = 'none';
       })
     }
-    this.updateMarquee(`${opponent.getPossessive()} turn`, 28);
-    this.updateLog(player, cell, opponent, oppBoard, shipSunk);
   },
   updateMarquee(text, size, color) {
     if (!color) color = '#fefefe';
@@ -103,6 +103,8 @@ const Display = {
     addToLog(player, cell, opponent, oppBoard, shipSunk, gamelog);
   },
   gameOver(winner, displayBoard) {
+    let delayTime = 0;
+    if (winner.isComputer()) delayTime = 400;
     let color;
     if (winner.isComputer()) color = 'rgb(255, 140, 140)';
     else color = 'rgb(180, 235, 180';
@@ -110,7 +112,7 @@ const Display = {
     const winText = createDOMElement('p', ['win-text']);
     winText.textContent = 'WINNER';
     displayBoard.appendChild(winText);
-    delay(0).then(() => {
+    delay(delayTime).then(() => {
       winText.classList.add('enlarge')
     })
   },

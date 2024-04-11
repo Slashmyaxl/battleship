@@ -56,15 +56,8 @@ function Game() {
       computerAttack.sunkShip,
       p1DisplayBoard
     );
-    
-    delay(600).then(() => {
-      console.log('checking and switching')
-      if (!isGameOver()) {
-        delay(600).then(() => Display.gameOver(player2, p2DisplayBoard));
-        return;
-      }
-      currentPlayer = player1;
-    });
+    if (isGameOver()) return Display.gameOver(player2, p2DisplayBoard);
+    currentPlayer = player1;
   });
 }
 
