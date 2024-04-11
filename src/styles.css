@@ -17,7 +17,7 @@
     background-repeat: no-repeat;
     margin: 0 auto;
     min-height: 100vh;
-    width: clamp(430px, 95%, 1280px);
+    width: clamp(420px, 92%, 1280px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -222,7 +222,7 @@ h1 {
 
 .upshift-fade {
     opacity: 0;
-    transform: translateY(-120px);
+    transform: translateY(-130px);
     scale: 1.4;
     transition: transform 500ms,
                 scale 300ms,
